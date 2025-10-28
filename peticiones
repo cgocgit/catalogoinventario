@@ -1,0 +1,24 @@
+curl localhost:8080/articulos
+curl localhost:8080/articulos/1
+
+{
+    nombreArticulo: 'mesa rectangular',
+    descripcionArticulo: 'mesa para 10 personas,
+    usuarioRegistra: 'administrador',
+    unidadMedida: 'pieza',
+    idCategoria: 1,
+    idColor: 1,
+    idTipoArticulo: 1
+}
+
+
+{
+    "idArticulo": 2,
+    "nombreArticulo": "mesa rectangular actulizada",
+    "descripcionArticulo": "mesa para 10 personas",
+    "usuarioRegistra": "administrador",
+    "unidadMedida": "pieza",
+    "idCategoria": 1,
+    "idColor": 1,
+    "idTipoArticulo": 1
+}
