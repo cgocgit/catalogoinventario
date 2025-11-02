@@ -1,5 +1,7 @@
 package mx.com.mesaregia.catalogoinventario.api;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
@@ -12,8 +14,11 @@ import lombok.Data;
 @Data
 public class RegistroInventarioDTO {
 
+	@Min(value = 1, message = "Identificador de inventario requerido.")
 	private int idInventario;
+	@Min(value = 1, message = "Identificador de articulo requerido.")
 	private int idArticulo;
+	@NotNull(message = "Codigo de unidad requerido.")
 	private String codigoUnidad;
 	
 	/**

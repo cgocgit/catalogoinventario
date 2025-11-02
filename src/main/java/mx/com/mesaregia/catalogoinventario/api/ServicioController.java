@@ -12,9 +12,17 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import mx.com.mesaregia.catalogoinventario.application.catalogo.ServicioBuilder;
 import mx.com.mesaregia.catalogoinventario.application.catalogo.ServicioDirector;
 import mx.com.mesaregia.catalogoinventario.application.catalogo.ServicioService;
@@ -28,6 +36,8 @@ import mx.com.mesaregia.catalogoinventario.domain.Servicio;
  * @version 1.0.0 
  */
 @RestController
+@RequestMapping("/servicios")
+@Tag(name = "Administrador de Servicios", description = "Gestiona los Servicios que se tendran en catalogo.")
 public class ServicioController extends CommonsController {
 
 	private final ServicioService servicioService;
@@ -46,8 +56,30 @@ public class ServicioController extends CommonsController {
 	}
 	
 	
-	@GetMapping("/servicios/{id}")
-	EntityModel<Servicio> one(@PathVariable Integer id) {
+	@GetMapping("/{id}")
+	@Operation(
+			summary = "Proporciona el servicio.",
+			description = "Proporcionara el servicio buscado por su identificador si es que existe.",
+			tags = {"Busqueda"},
+			responses = {
+					@ApiResponse(
+							responseCode = "200",
+							description = "Successful",
+							content = @Content(
+									mediaType = "application/json",
+									schema = @Schema(implementation = Servicio.class)
+									)
+							),
+					@ApiResponse(
+							responseCode = "404",
+							description = "Not Found",
+							content = @Content(
+									mediaType = "application/json"
+									)
+							)
+			}
+			)
+	EntityModel<Servicio> one(@Min(value = 1, message = "El identificador no debe ser menor a 1.") @PathVariable Integer id) {
 		try {
 			Servicio servicio = servicioService.obtenerServicio(id); // servicioRepository.findById(id).get();
 			return EntityModel.of(servicio);
@@ -57,16 +89,58 @@ public class ServicioController extends CommonsController {
 
 	}
 	
-	@GetMapping("/servicios")
-	public CollectionModel<EntityModel<Servicio>> getArticulos() {
-
+	@GetMapping()
+	@Operation(
+			summary = "Lista los Servicios.",
+			description = "Lista los Servicio en el catalogo.",
+			tags = {"Listado"},
+			responses = {
+					@ApiResponse(
+							responseCode = "200",
+							description = "Successful",
+							content = @Content(
+									mediaType = "application/json",
+									schema = @Schema(implementation = Servicio.class)
+									)
+							),
+					@ApiResponse(
+							responseCode = "404",
+							description = "Not Found",
+							content = @Content(
+									mediaType = "application/json"
+									)
+							)
+			}
+			)
+	public CollectionModel<EntityModel<Servicio>> getServicios() {
 		List<EntityModel<Servicio>> servicios = servicioService.obtenerServicios() //servicioRepository.findAll()
 				.stream().map(servicio -> EntityModel.of(servicio)).collect(Collectors.toList());
 		return CollectionModel.of(servicios);
 	}
 	
-	@DeleteMapping("/servicios/{id}")
-	public void bajarArticulo(@PathVariable Integer id) {
+	@DeleteMapping("/{id}")
+	@Operation(
+			summary = "Elimina un Servicio.",
+			description = "Elimina el Servicio por su identificador.",
+			tags = {"Eliminacion"},
+			responses = {
+					@ApiResponse(
+							responseCode = "200",
+							description = "Successful",
+							content = @Content(
+									mediaType = "application/json"
+									)
+							),
+					@ApiResponse(
+							responseCode = "404",
+							description = "Not Found",
+							content = @Content(
+									mediaType = "application/json"
+									)
+							)
+			}
+			)
+	public void bajarServicio(@Min(value = 1, message = "El identificador no es menor a 1-") @PathVariable Integer id) {
 		try {
 			servicioService.bajarServicio(id);
 		} catch (NotFoundException e) {
@@ -74,8 +148,36 @@ public class ServicioController extends CommonsController {
 		}
 	}
 	
-	@PatchMapping("/servicios/{id}")
-	public EntityModel<GenericResponse> actualizarServicios(@PathVariable int id, @RequestBody ServicioDTO articuloDTO) {
+	@PatchMapping("/{id}")
+	@Operation(
+			summary = "Actualiza un Servicio.",
+			description = "Actualiza la informacion del Servicio.",
+			tags = {"Actualizacion"},
+			requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody (
+					required = true,
+					useParameterTypeSchema = true,
+					description = "Informacion que se actualizara sobre el Servicio existente."
+			),
+			responses = {
+					@ApiResponse(
+							responseCode = "200",
+							description = "Successful",
+							content = @Content(
+									mediaType = "application/json",
+									schema = @Schema(implementation = GenericResponse.class)
+									)
+							),
+					@ApiResponse(
+							responseCode = "404",
+							description = "Not Found",
+							content = @Content(
+									mediaType = "application/json"
+									)
+							)
+			}
+			)
+	public EntityModel<GenericResponse> actualizarServicios(@Min(value = 1, message = "El identificador no es menor a 1.") @PathVariable int id, 
+			@NotNull(message = "Informacion requerida.") @RequestBody ServicioDTO articuloDTO) {
 		try {
 			construirUpdate(id, articuloDTO);
 			servicioService.actualizarServicio(servicioBuilder.get());
@@ -103,10 +205,37 @@ public class ServicioController extends CommonsController {
 		servicioDirector.construirServicio();
 	}
 
-	@PutMapping("/servicios")
-	public EntityModel<GenericResponse> registrarServicios(@RequestBody ServicioDTO articuloDTO) {
+	@PutMapping("")
+	@Operation(
+			summary = "Registra un Servicio.",
+			description = "Registra la información del servicio.",
+			tags = {"Registro"},
+			requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody (
+					required = true,
+					useParameterTypeSchema = true,
+					description = "Informacion que se requiere para el registro del Servicio.."
+			),
+			responses = {
+					@ApiResponse(
+							responseCode = "200",
+							description = "Successful",
+							content = @Content(
+									mediaType = "application/json",
+									schema = @Schema(implementation = GenericResponse.class)
+									)
+							),
+					@ApiResponse(
+							responseCode = "404",
+							description = "Not Found",
+							content = @Content(
+									mediaType = "application/json"
+									)
+							)
+			}
+			)
+	public EntityModel<GenericResponse> registrarServicios(@NotNull(message = "Informacion requerida.") @RequestBody ServicioDTO servicioDTO) {
 		try {
-			construirRegistro(articuloDTO);
+			construirRegistro(servicioDTO);
 			return EntityModel
 					.of(getExito("0", "Operacion con exito", servicioService.registrarServicio(servicioBuilder.get())));
 		} catch (NotFoundException e) {

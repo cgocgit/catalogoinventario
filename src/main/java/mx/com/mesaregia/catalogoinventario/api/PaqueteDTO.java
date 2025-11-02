@@ -1,5 +1,7 @@
 package mx.com.mesaregia.catalogoinventario.api;
 
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,10 +18,15 @@ import lombok.ToString;
 @ToString
 public class PaqueteDTO {
 
+	@NotNull(message = "Se requiere codigo de paquete.")
 	private String codigoPaquete;
+	@NotNull(message = "Se requiere descripcion del paquete.")
 	private String descripcion;
+	@NotNull(message = "Se requiere nombre del paquete.")
 	private String nombrePaquete;
+	@DecimalMin(value = "0.01")
 	private Double precio;
+	@NotNull(message = "Se requiere de quien registra.")
 	private String usuarioCreacion;
 	
 	/**
