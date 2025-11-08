@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 
 /**
  * 
@@ -83,7 +86,9 @@ public class ArticuloController extends CommonsController {
 	EntityModel<Articulo> one(@Min(value = 1, message = "El valor requerido no debe ser menor a 1.") @PathVariable Integer id) {
 		try {
 			Articulo articulo = articuloService.obtenerArticulo(id);
-			return EntityModel.of(articulo);
+			return EntityModel.of(articulo,
+					linkTo(methodOn(ArticuloController.class).one(id)).withSelfRel(),
+					linkTo(methodOn(ArticuloController.class).getArticulos()).withRel("articulos"));
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -116,7 +121,8 @@ public class ArticuloController extends CommonsController {
 	public CollectionModel<EntityModel<Articulo>> getArticulos() {
 
 		List<EntityModel<Articulo>> articulos = articuloService.obtenerArticulos().stream()
-				.map(articulo -> EntityModel.of(articulo)).collect(Collectors.toList());
+				.map(articulo -> EntityModel.of(articulo))
+						.collect(Collectors.toList());
 		return CollectionModel.of(articulos);
 	}
 
