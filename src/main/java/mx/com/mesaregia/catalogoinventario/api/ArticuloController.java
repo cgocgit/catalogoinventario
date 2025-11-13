@@ -121,8 +121,11 @@ public class ArticuloController extends CommonsController {
 	public CollectionModel<EntityModel<Articulo>> getArticulos() {
 
 		List<EntityModel<Articulo>> articulos = articuloService.obtenerArticulos().stream()
-				.map(articulo -> EntityModel.of(articulo))
-						.collect(Collectors.toList());
+				.map(articulo -> EntityModel.of(articulo,
+						linkTo(methodOn(ArticuloController.class).one(articulo.getIdArticulo().intValue())).withSelfRel(),
+						linkTo(methodOn(ArticuloController.class).getArticulos()).withRel("articulos")
+						))
+				.collect(Collectors.toList());
 		return CollectionModel.of(articulos);
 	}
 

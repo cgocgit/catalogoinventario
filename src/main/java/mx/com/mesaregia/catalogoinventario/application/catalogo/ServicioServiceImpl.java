@@ -38,7 +38,7 @@ public class ServicioServiceImpl implements ServicioService {
 
 	@Override
 	public Collection<Servicio> obtenerServicios() {
-		return servicioRepository.findAll();
+		return servicioRepository.findByActivoTrue(); //.findAll();
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class ServicioServiceImpl implements ServicioService {
 	 * @return
 	 */
 	private Servicio getServicio(@NotNull @Min(value = 1) Long idArticulo) {
-		return servicioRepository.findById(idArticulo.intValue())
+		return servicioRepository.findByIdServicioAndActivoTrue(idArticulo.intValue()) // .findById(idArticulo.intValue())
 				.orElseThrow(() -> new NotFoundException(idArticulo.toString()));
 	}
 

@@ -1,15 +1,19 @@
 package mx.com.mesaregia.catalogoinventario.api;
 
+import java.net.URI;
+import java.net.http.HttpHeaders;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +32,8 @@ import mx.com.mesaregia.catalogoinventario.application.catalogo.ServicioDirector
 import mx.com.mesaregia.catalogoinventario.application.catalogo.ServicioService;
 import mx.com.mesaregia.catalogoinventario.domain.Servicio;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 /**
  *
  * @author Carlos Gilberto Olvera Casanova
@@ -43,16 +49,18 @@ public class ServicioController extends CommonsController {
 	private final ServicioService servicioService;
 	private final ServicioDirector servicioDirector;
 	private final ServicioBuilder servicioBuilder;
+	private final AbstractHateoas<Servicio> assambler;
 	
 	/**
 	 * 
 	 */
-	public ServicioController(ServicioService servicioService, ServicioDirector servicioDirector, ServicioBuilder servicioBuilder) {
+	public ServicioController(ServicioService servicioService, ServicioDirector servicioDirector, ServicioBuilder servicioBuilder, ServicioModelAssambler assambler) {
 		super();
 		/* Constructor principal */
 		this.servicioService = servicioService;
 		this.servicioDirector = servicioDirector;
 		this.servicioBuilder = servicioBuilder;
+		this.assambler = assambler;
 	}
 	
 	
@@ -82,7 +90,7 @@ public class ServicioController extends CommonsController {
 	EntityModel<Servicio> one(@Min(value = 1, message = "El identificador no debe ser menor a 1.") @PathVariable Integer id) {
 		try {
 			Servicio servicio = servicioService.obtenerServicio(id); // servicioRepository.findById(id).get();
-			return EntityModel.of(servicio);
+			return assambler.toModel(servicio); //EntityModel.of(servicio);
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -114,8 +122,11 @@ public class ServicioController extends CommonsController {
 			)
 	public CollectionModel<EntityModel<Servicio>> getServicios() {
 		List<EntityModel<Servicio>> servicios = servicioService.obtenerServicios() //servicioRepository.findAll()
-				.stream().map(servicio -> EntityModel.of(servicio)).collect(Collectors.toList());
-		return CollectionModel.of(servicios);
+				.stream().map(assambler::toModel).collect(Collectors.toList());
+		return CollectionModel.of(servicios,
+				linkTo(methodOn(ServicioController.class).getServicios()).withSelfRel(),
+				getLinkPut()
+				);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -140,15 +151,17 @@ public class ServicioController extends CommonsController {
 							)
 			}
 			)
-	public void bajarServicio(@Min(value = 1, message = "El identificador no es menor a 1-") @PathVariable Integer id) {
+	public ResponseEntity<Void> bajarServicio(@Min(value = 1, message = "El identificador no es menor a 1-") @PathVariable Integer id) {
 		try {
 			servicioService.bajarServicio(id);
+			URI allUri = linkTo(methodOn(ServicioController.class).getServicios()).toUri();
+			return ResponseEntity.noContent().header(org.springframework.http.HttpHeaders.LINK, "<"+allUri+">: rel=\"all\"").build();
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	}
 	
-	@PatchMapping("/{id}")
+	@PutMapping("/{id}")
 	@Operation(
 			summary = "Actualiza un Servicio.",
 			description = "Actualiza la informacion del Servicio.",
@@ -176,12 +189,13 @@ public class ServicioController extends CommonsController {
 							)
 			}
 			)
-	public EntityModel<GenericResponse> actualizarServicios(@Min(value = 1, message = "El identificador no es menor a 1.") @PathVariable int id, 
+	public EntityModel<Servicio> actualizarServicios(@Min(value = 1, message = "El identificador no es menor a 1.") @PathVariable int id, 
 			@NotNull(message = "Informacion requerida.") @RequestBody ServicioDTO articuloDTO) {
 		try {
 			construirUpdate(id, articuloDTO);
-			servicioService.actualizarServicio(servicioBuilder.get());
-			return EntityModel.of(getExito("0", "Operacion con exito", null));
+			Servicio servicio = servicioBuilder.get();
+			servicioService.actualizarServicio(servicio);
+			return assambler.toModel(servicio, CRUDMethod.PUT);
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -205,7 +219,7 @@ public class ServicioController extends CommonsController {
 		servicioDirector.construirServicio();
 	}
 
-	@PutMapping("")
+	@PostMapping("")
 	@Operation(
 			summary = "Registra un Servicio.",
 			description = "Registra la información del servicio.",
@@ -233,11 +247,11 @@ public class ServicioController extends CommonsController {
 							)
 			}
 			)
-	public EntityModel<GenericResponse> registrarServicios(@NotNull(message = "Informacion requerida.") @RequestBody ServicioDTO servicioDTO) {
+	public ResponseEntity<EntityModel<Servicio>> registrarServicios(@NotNull(message = "Informacion requerida.") @RequestBody ServicioDTO servicioDTO) {
 		try {
 			construirRegistro(servicioDTO);
-			return EntityModel
-					.of(getExito("0", "Operacion con exito", servicioService.registrarServicio(servicioBuilder.get())));
+			Servicio servicio = servicioService.registrarServicio(servicioBuilder.get());
+			return ResponseEntity.status(HttpStatus.CREATED).body(assambler.toModel(servicio, CRUDMethod.POST));
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -267,5 +281,9 @@ public class ServicioController extends CommonsController {
 		servicioDirector.construirServicio();
 	}
 
+	private Link getLinkPut() {
+		return linkTo(methodOn(this.getClass()).registrarServicios(null)).withRel("Registrar");
+	}
+	
 
 }
