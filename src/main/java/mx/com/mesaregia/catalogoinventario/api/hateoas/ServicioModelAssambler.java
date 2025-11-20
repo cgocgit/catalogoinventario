@@ -1,4 +1,4 @@
-package mx.com.mesaregia.catalogoinventario.api;
+package mx.com.mesaregia.catalogoinventario.api.hateoas;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -7,6 +7,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 
+import mx.com.mesaregia.catalogoinventario.api.ServicioController;
 import mx.com.mesaregia.catalogoinventario.domain.Servicio;
 
 /**
@@ -16,7 +17,7 @@ import mx.com.mesaregia.catalogoinventario.domain.Servicio;
  *
  * @version 1.0.0
  */
-@Component
+@Component("assamblerServicio")
 public class ServicioModelAssambler extends AbstractHateoas<Servicio> {
 //implements RepresentationModelAssembler<Servicio, EntityModel<Servicio>> {
 

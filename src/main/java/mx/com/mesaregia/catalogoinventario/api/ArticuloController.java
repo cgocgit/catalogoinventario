@@ -14,23 +14,30 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import mx.com.mesaregia.catalogoinventario.api.hateoas.AbstractReflectionHateoas;
+import mx.com.mesaregia.catalogoinventario.api.hateoas.CRUDMethod;
 import mx.com.mesaregia.catalogoinventario.application.catalogo.ArticuloBuilder;
 import mx.com.mesaregia.catalogoinventario.application.catalogo.ArticuloDirector;
 import mx.com.mesaregia.catalogoinventario.application.catalogo.ArticuloService;
 import mx.com.mesaregia.catalogoinventario.domain.Articulo;
+import mx.com.mesaregia.catalogoinventario.dto.ArticuloDTO;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +57,10 @@ public class ArticuloController extends CommonsController {
 
 	private final ArticuloDirector articuloDirector;
 
+	@Autowired
+	@Qualifier("articuloControllerAssembler")
+	private AbstractReflectionHateoas<Articulo> assambler;
+	
 	/**
 	 * 
 	 */
@@ -83,12 +94,10 @@ public class ArticuloController extends CommonsController {
 							)
 			}
 			)
-	EntityModel<Articulo> one(@Min(value = 1, message = "El valor requerido no debe ser menor a 1.") @PathVariable Integer id) {
+	public EntityModel<Articulo> one(@Min(value = 1, message = "El valor requerido no debe ser menor a 1.") @PathVariable Integer id) {
 		try {
 			Articulo articulo = articuloService.obtenerArticulo(id);
-			return EntityModel.of(articulo,
-					linkTo(methodOn(ArticuloController.class).one(id)).withSelfRel(),
-					linkTo(methodOn(ArticuloController.class).getArticulos()).withRel("articulos"));
+			return assambler.toModel(articulo, CRUDMethod.GET);
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -121,10 +130,7 @@ public class ArticuloController extends CommonsController {
 	public CollectionModel<EntityModel<Articulo>> getArticulos() {
 
 		List<EntityModel<Articulo>> articulos = articuloService.obtenerArticulos().stream()
-				.map(articulo -> EntityModel.of(articulo,
-						linkTo(methodOn(ArticuloController.class).one(articulo.getIdArticulo().intValue())).withSelfRel(),
-						linkTo(methodOn(ArticuloController.class).getArticulos()).withRel("articulos")
-						))
+				.map(articulo -> assambler.toModel(articulo, CRUDMethod.GET))
 				.collect(Collectors.toList());
 		return CollectionModel.of(articulos);
 	}
@@ -152,15 +158,17 @@ public class ArticuloController extends CommonsController {
 							)
 			}
 			)
-	public void bajarArticulo(@Min(value = 1, message = "El valor minimo requerido es 1.") @PathVariable Integer id) {
+	public ResponseEntity<Void> bajarArticulo(@Min(value = 1, message = "El valor minimo requerido es 1.") @PathVariable Integer id) {
 		try {
 			articuloService.bajarArticulo(id);
+			URI allUri = linkTo(methodOn(PaqueteController.class).getPaquetes()).toUri();
+			return ResponseEntity.noContent().header(org.springframework.http.HttpHeaders.LINK, "<"+allUri+">: rel=\"all\"").build();
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	}
 
-	@PatchMapping("/{id}")
+	@PutMapping("/{id}")
 	@Operation(
 			summary = "Actualiza un articulo.",
 			description = "Actualiza un articulo dentro del catalogo.",
@@ -188,12 +196,13 @@ public class ArticuloController extends CommonsController {
 							)
 			}
 			)
-	public EntityModel<GenericResponse> actualizarArticulo(@Min(value = 1, message = "El valore requerido no debe ser menor a 1.") @PathVariable int id,
+	public EntityModel<Articulo> actualizarArticulo(@Min(value = 1, message = "El valore requerido no debe ser menor a 1.") @PathVariable Integer id,
 			@NotNull @RequestBody ArticuloDTO articuloDTO) {
 		try {
 			construirUpdate(id, articuloDTO);
-			articuloService.actualizarArticulo(articuloBuilder.get());
-			return EntityModel.of(getExito("0", "Operacion con exito", null));
+			Articulo articulo = articuloBuilder.get();
+			articuloService.actualizarArticulo(articulo);
+			return assambler.toModel(articulo, CRUDMethod.PUT);
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -215,7 +224,7 @@ public class ArticuloController extends CommonsController {
 		articuloDirector.construirArticulo();
 	}
 
-	@PutMapping()
+	@PostMapping()
 	@Operation(
 			summary = "Registra un articulo.",
 			description = "Registra un articulo dentro del catalogo.",
@@ -243,11 +252,11 @@ public class ArticuloController extends CommonsController {
 							)
 			}
 			)
-	public EntityModel<GenericResponse> registrarArticulo(@Valid @NotNull @RequestBody ArticuloDTO articuloDTO) {
+	public ResponseEntity<EntityModel<Articulo>> registrarArticulo(@Valid @NotNull @RequestBody ArticuloDTO articuloDTO) {
 		try {
 			construirRegistro(articuloDTO);
-			return EntityModel
-					.of(getExito("0", "Operacion con exito", articuloService.registrarArticulo(articuloBuilder.get())));
+			Articulo articulo = articuloService.registrarArticulo(articuloBuilder.get());
+			return ResponseEntity.status(HttpStatus.CREATED).body(assambler.toModel(articulo, CRUDMethod.POST));
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}

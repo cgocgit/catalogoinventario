@@ -14,6 +14,7 @@ public abstract class DetallePaqueteAbstract<V> {
 
 	protected abstract V buscarElemento(int id);
 	
+	//TODO refactor
 	protected abstract Paquete buscarPaquete(int id);
 	
 	protected abstract void validaExistencia(Paquete paquete, V v) throws ItsExistException;

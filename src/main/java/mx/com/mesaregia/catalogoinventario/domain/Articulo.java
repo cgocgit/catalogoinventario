@@ -33,6 +33,7 @@ public class Articulo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idArticulo;
+	private String codigoArticulo;
 	private String nombreArticulo;
 	private String descripcionArticulo;
 	@ManyToOne(fetch = FetchType.EAGER)

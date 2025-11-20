@@ -1,4 +1,4 @@
-package mx.com.mesaregia.catalogoinventario.api;
+package mx.com.mesaregia.catalogoinventario.api.hateoas;
 
 import org.springframework.hateoas.Affordance;
 import org.springframework.hateoas.EntityModel;
@@ -36,8 +36,5 @@ public abstract class AbstractHateoas<T> implements RepresentationModelAssembler
 	protected abstract Link linkToDelete(T model);
 	protected abstract Link linkToPut(T model);
 	protected abstract Link linkToPatch(T model);
-	
-	
-
 
 }

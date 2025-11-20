@@ -1,4 +1,4 @@
-package mx.com.mesaregia.catalogoinventario.api;
+package mx.com.mesaregia.catalogoinventario.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

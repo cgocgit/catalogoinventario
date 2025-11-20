@@ -1,5 +1,7 @@
 package mx.com.mesaregia.catalogoinventario.application.catalogo;
 
+import java.util.Date;
+
 import org.springframework.stereotype.Component;
 
 import mx.com.mesaregia.catalogoinventario.domain.Categoria;
@@ -39,6 +41,10 @@ public class ServicioBuilderImpl implements ServicioBuilder {
 	@Override
 	public void preparar() {
 		servicio = new Servicio();
+		servicio.setFechaModificacion(new Date());
+		servicio.setFechaRegistro(new Date());
+		servicio.setModificadoPor("Administrador");
+		servicio.setCreadoPor("Administrador");
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ import mx.com.mesaregia.catalogoinventario.application.inventario.InventarioServ
 import mx.com.mesaregia.catalogoinventario.domain.EstadoArticulo;
 import mx.com.mesaregia.catalogoinventario.domain.ExistenciaArticulo;
 import mx.com.mesaregia.catalogoinventario.domain.Inventario;
+import mx.com.mesaregia.catalogoinventario.dto.RegistroInventarioDTO;
 
 /**
  *
@@ -49,7 +51,7 @@ public class InventarioController extends CommonsController {
 	}
 	
 	
-	@PutMapping()
+	@PostMapping()
 	@Operation(
 			summary = "Registra un articulo.",
 			description = "Actualiza el inventario con el registro del articulo..",
@@ -115,7 +117,7 @@ public class InventarioController extends CommonsController {
 		return CollectionModel.of(invetario);
 	}
 	
-	@PatchMapping("/{id}")
+	@PutMapping("/{id}")
 	@Operation(
 			summary = "Actualiza inventario.",
 			description = "Actualiza el estatus del articulo en el inventario..",

@@ -17,9 +17,10 @@ public interface DetallePaqueteService<T, V> {
 
 	T agregarAPaquete(Paquete paquete, V v, int cantidad, double precio) throws NotFoundException, ItsExistException;
 	
-	T agregarAPaquete(int idPaquete, int v, int cantidad, double precio) throws NotFoundException, ItsExistException;;
+//	@Deprecated
+//	T agregarAPaquete(int idPaquete, int v, int cantidad, double precio) throws NotFoundException, ItsExistException;;
 	
 	Collection<T> consultarDetalleEnPaquete(int idPaquete);
 	
-	void quitarDelPaquete(int idDetallePaquete) throws NotFoundException;
+	T quitarDelPaquete(int idDetallePaquete) throws NotFoundException;
 }

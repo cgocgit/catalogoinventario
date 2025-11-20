@@ -1,17 +1,16 @@
 package mx.com.mesaregia.catalogoinventario.api;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,11 +23,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import mx.com.mesaregia.catalogoinventario.api.hateoas.AbstractReflectionHateoas;
+import mx.com.mesaregia.catalogoinventario.api.hateoas.CRUDMethod;
+import mx.com.mesaregia.catalogoinventario.application.catalogo.DetallePaqueteBussines;
 import mx.com.mesaregia.catalogoinventario.application.catalogo.DetallePaqueteService;
-import mx.com.mesaregia.catalogoinventario.domain.Articulo;
 import mx.com.mesaregia.catalogoinventario.domain.DetallePaqueteArticulo;
 import mx.com.mesaregia.catalogoinventario.domain.DetallePaqueteServicio;
+import mx.com.mesaregia.catalogoinventario.domain.Paquete;
 import mx.com.mesaregia.catalogoinventario.domain.Servicio;
+import mx.com.mesaregia.catalogoinventario.dto.DetalleEnPaqueteDTO;
+import mx.com.mesaregia.catalogoinventario.dto.DetallePaqueteDTO;
+import mx.com.mesaregia.catalogoinventario.dto.TipoDetalle;
 
 /**
  *
@@ -38,26 +43,25 @@ import mx.com.mesaregia.catalogoinventario.domain.Servicio;
  * @version 1.0.0
  */
 @RestController
-@RequestMapping("/paquetes")
+@RequestMapping("/detallepaquete")
 @Tag(name = "Administrador de los Articulos y Servicios en Paquetes",
 description = "Gestiona los Servicios y Articulos que se tendran en el paquete.")
 public class DetallePaqueteController extends CommonsController {
+
+	private final DetallePaqueteBussines detallePaqueteBussines;
 	
-	private static final Logger log = LoggerFactory.getLogger(DetallePaqueteController.class);
-
-	private final DetallePaqueteService<DetallePaqueteArticulo, Articulo> detallePaqueteArticuloService;
-
-	private final DetallePaqueteService<DetallePaqueteServicio, Servicio> detallePaqueteServicioService;
-
+	@Autowired
+	@Qualifier("detallePaqueteControllerAssembler")
+	private AbstractReflectionHateoas<DetalleEnPaqueteDTO> assambler;
+	
 	public DetallePaqueteController(
-			DetallePaqueteService<DetallePaqueteArticulo, Articulo> detallePaqueteArticuloService,
+			DetallePaqueteBussines detallePaqueteBussines,
 			DetallePaqueteService<DetallePaqueteServicio, Servicio> detallePaqueteServicioService) {
 		super();
-		this.detallePaqueteArticuloService = detallePaqueteArticuloService;
-		this.detallePaqueteServicioService = detallePaqueteServicioService;
+		this.detallePaqueteBussines = detallePaqueteBussines;
 	}
 
-	@GetMapping("/articulos/{id}")
+	@GetMapping("/{id}")
 	@Operation(
 			summary = "Listado de articulos.",
 			description = "Lista los articulos dentro del paquete.",
@@ -80,59 +84,17 @@ public class DetallePaqueteController extends CommonsController {
 							)
 			}
 			)
-	public CollectionModel<EntityModel<DetallePaqueteArticulo>> getArticulos(@Min(value = 1, message = "El valor requerido no debe ser menor a 1.") @PathVariable int id) {
+	public CollectionModel<EntityModel<DetalleEnPaqueteDTO>> getDetalles(
+			@Min(value = 1, message = "El valor requerido no debe ser menor a 1.") @PathVariable Integer id) {
 		try {
-			List<EntityModel<DetallePaqueteArticulo>> articulos = detallePaqueteArticuloService
-					.consultarDetalleEnPaquete(id).stream().map(detalle -> EntityModel.of(detalle))
-					.collect(Collectors.toList());
-			log.info("Articulos en paquete: " + articulos.size());
-			articulos.forEach(d -> log.info(d.toString()));
-			return CollectionModel.of(articulos);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-		}
-
-	}
-
-	@GetMapping("/servicios/{id}")
-	@Operation(
-			summary = "Listado de servicios.",
-			description = "Enlista los servicios dentro del paquete.",
-			tags = {"Listado"},
-			responses = {
-					@ApiResponse(
-							responseCode = "200",
-							description = "Successful",
-							content = @Content(
-									mediaType = "application/json",
-									schema = @Schema(implementation = DetallePaqueteServicio.class)
-									)
-							),
-					@ApiResponse(
-							responseCode = "404",
-							description = "Not Found",
-							content = @Content(
-									mediaType = "application/json"
-									)
-							)
-			}
-			)
-	public CollectionModel<EntityModel<DetallePaqueteServicio>> getServicios(@Min(value = 1, message = "El valor requerido no debe ser menor a 1.") @PathVariable int id) {
-		try {
-			List<EntityModel<DetallePaqueteServicio>> articulos = detallePaqueteServicioService
-					.consultarDetalleEnPaquete(id).stream().map(detalle -> EntityModel.of(detalle))
-					.collect(Collectors.toList());
-			log.info("Servicios en paquete: " + articulos.size());
-			articulos.forEach(d -> log.info(d.toString()));
-			return CollectionModel.of(articulos);
+			return getArticulosServicios(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
-
-	@PutMapping("/articulos")
+	
+	@PostMapping("/articulo")
 	@Operation(
 			summary = "Registra un servicio.",
 			description = "Registra un servicio dentro del paquete.",
@@ -160,10 +122,14 @@ public class DetallePaqueteController extends CommonsController {
 							)
 			}
 			)
-	public EntityModel<GenericResponse> registrarArticulo(@NotNull(message = "Informacion requerida-") @RequestBody DetallePaqueteDTO params) {
+	public EntityModel<DetalleEnPaqueteDTO> registrarArticulo(
+			@NotNull(message = "Informacion requerida-") @RequestBody DetallePaqueteDTO params) {
 		try {
-			return EntityModel.of(getExito("0", "Operacion con exito.", detallePaqueteArticuloService.agregarAPaquete(
-					params.getIdPaquete(), params.getIdArticuloServicio(), params.getCantidad(), params.getPrecio())));
+			return assambler.toModel(
+					detallePaqueteBussines.agregarAPaquete(params.getIdPaquete(), 
+							params.getIdArticuloServicio(), params.getCantidad(), 
+							params.getPrecio(), TipoDetalle.Articulo)
+					, CRUDMethod.POST);
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		} catch (ItsExistException e) {
@@ -171,7 +137,7 @@ public class DetallePaqueteController extends CommonsController {
 		}
 	}
 
-	@PutMapping("/servicios")
+	@PostMapping("/servicio")
 	@Operation(
 			summary = "Registra un servicio.",
 			description = "Registra un servicio dentro del paquete.",
@@ -199,10 +165,14 @@ public class DetallePaqueteController extends CommonsController {
 							)
 			}
 			)
-	public EntityModel<GenericResponse> registrarServicio(@NotNull(message = "Informacion requerida-") @RequestBody DetallePaqueteDTO params) {
+	public EntityModel<GenericResponse> registrarServicio(
+			@NotNull(message = "Informacion requerida-") @RequestBody DetallePaqueteDTO params) {
 		try {
-			return EntityModel.of(getExito("0", "Operacion con exito.", detallePaqueteServicioService.agregarAPaquete(
-					params.getIdPaquete(), params.getIdArticuloServicio(), params.getCantidad(), params.getPrecio())));
+			return EntityModel.of(getExito("0", "Operacion con exito.",
+					detallePaqueteBussines.agregarAPaquete(params.getIdPaquete(), 
+							params.getIdArticuloServicio(), params.getCantidad(), 
+							params.getPrecio(), TipoDetalle.Servicio)
+					));
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		} catch (ItsExistException e) {
@@ -210,7 +180,7 @@ public class DetallePaqueteController extends CommonsController {
 		}
 	}
 
-	@DeleteMapping("/articulos/{id}")
+	@DeleteMapping("/articulo/{id}")
 	@Operation(
 			summary = "Elimina el articulo.",
 			description = "Elimina el articulo en el paquete.",
@@ -232,15 +202,17 @@ public class DetallePaqueteController extends CommonsController {
 							)
 			}
 			)
-	public void quitarArticuloDelPaquete(@Min(value = 1, message = "El valor requerido no debe ser menor a 1.") @PathVariable int id) {
+	public CollectionModel<EntityModel<DetalleEnPaqueteDTO>> quitarArticuloDelPaquete(
+			@Min(value = 1, message = "El valor requerido no debe ser menor a 1.") @PathVariable Integer id) {
 		try {
-			detallePaqueteArticuloService.quitarDelPaquete(id);
+			Paquete paquete = detallePaqueteBussines.quitarDelPaquete(id, TipoDetalle.Articulo);
+			return getArticulosServicios(paquete.getIdPaquete());
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	}
 
-	@DeleteMapping("/servicios/{id}")
+	@DeleteMapping("/servicio/{id}")
 	@Operation(
 			summary = "Elimina el servicio.",
 			description = "Elimina el servicio en el paquete.",
@@ -262,12 +234,23 @@ public class DetallePaqueteController extends CommonsController {
 							)
 			}
 			)
-	public void quitarSrvicioDelPaquete(@Min(value = 1, message = "El valor requerido no debe ser menor a 1.") @PathVariable int id) {
+	public CollectionModel<EntityModel<DetalleEnPaqueteDTO>> quitarServicioDelPaquete(
+			@Min(value = 1, message = "El valor requerido no debe ser menor a 1.") @PathVariable Integer id) {
 		try {
-			detallePaqueteServicioService.quitarDelPaquete(id);
+			Paquete paquete = detallePaqueteBussines.quitarDelPaquete(id, TipoDetalle.Servicio);
+			return getArticulosServicios(paquete.getIdPaquete());
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
 	}
 
+	/**
+	 * @param id
+	 * @return
+	 */
+	private CollectionModel<EntityModel<DetalleEnPaqueteDTO>> getArticulosServicios(int id) {
+		List<EntityModel<DetalleEnPaqueteDTO>> articulos = detallePaqueteBussines.consultarDetalleEnPaquete(id)
+				.stream().map(detalle -> assambler.toModel(detalle, CRUDMethod.GET)).toList();
+		return CollectionModel.of(articulos);
+	}
 }

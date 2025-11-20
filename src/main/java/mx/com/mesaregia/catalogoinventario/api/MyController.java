@@ -13,6 +13,8 @@ import org.springframework.hateoas.mediatype.Affordances;
  */
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+import java.util.Date;
+
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,7 +68,7 @@ public class MyController {
       Link updateLink = Link.of(linkTo(methodOn(MyController.class).updateEmployee(null, id)).toUri().toString(), "update").withType("PATCH");
 //      return EntityModel.of(servicio, self, updateLink, createLink);
     	Servicio servicio = new Servicio(1, "123", "Servoio", "descripcion",
-    	            TipoServicio.Banquete, 1d, false, 2d, null);
+    	            TipoServicio.Banquete, 1d, false, 2d, null, new Date(), "Yo", null, null);
     	 
     	EntityModel<Servicio> model = EntityModel.of(servicio,
     		    linkTo(methodOn(MyController.class).findOne(id)).withSelfRel()

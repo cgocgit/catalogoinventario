@@ -1,4 +1,4 @@
-package mx.com.mesaregia.catalogoinventario.api;
+package mx.com.mesaregia.catalogoinventario.api.hateoas;
 
 /**
  *

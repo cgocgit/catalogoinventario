@@ -87,7 +87,7 @@ public class LoadDatabase {
 			log.info("Preloading: " + categoriaRepository.saveAndFlush(categoria2));
 			log.info("Categoria: " + categoria2);
 			Servicio servicio = new Servicio(null, "SrvBuffet", "Catering", "Desayuno intercontinental",
-					TipoServicio.Banquete, 5678.90, true, 5555d, categoria2);
+					TipoServicio.Banquete, 5678.90, true, 5555d, categoria2, new Date(), "Por miguelito", null, null);
 			log.info("Servicio: " + servicio);
 			log.info("Preloading: " + servicioRepository.saveAndFlush(servicio));
 

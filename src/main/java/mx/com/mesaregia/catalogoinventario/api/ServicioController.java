@@ -1,7 +1,6 @@
 package mx.com.mesaregia.catalogoinventario.api;
 
 import java.net.URI;
-import java.net.http.HttpHeaders;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,10 +26,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import mx.com.mesaregia.catalogoinventario.api.hateoas.AbstractHateoas;
+import mx.com.mesaregia.catalogoinventario.api.hateoas.CRUDMethod;
+import mx.com.mesaregia.catalogoinventario.api.hateoas.ServicioModelAssambler;
 import mx.com.mesaregia.catalogoinventario.application.catalogo.ServicioBuilder;
 import mx.com.mesaregia.catalogoinventario.application.catalogo.ServicioDirector;
 import mx.com.mesaregia.catalogoinventario.application.catalogo.ServicioService;
 import mx.com.mesaregia.catalogoinventario.domain.Servicio;
+import mx.com.mesaregia.catalogoinventario.dto.ServicioDTO;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -87,7 +90,7 @@ public class ServicioController extends CommonsController {
 							)
 			}
 			)
-	EntityModel<Servicio> one(@Min(value = 1, message = "El identificador no debe ser menor a 1.") @PathVariable Integer id) {
+	public EntityModel<Servicio> one(@Min(value = 1, message = "El identificador no debe ser menor a 1.") @PathVariable Integer id) {
 		try {
 			Servicio servicio = servicioService.obtenerServicio(id); // servicioRepository.findById(id).get();
 			return assambler.toModel(servicio); //EntityModel.of(servicio);
