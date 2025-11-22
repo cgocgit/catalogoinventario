@@ -24,9 +24,7 @@ import mx.com.mesaregia.catalogoinventario.dto.ArticuloDTO;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -44,7 +42,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 /**
+ * Controller para catalogo de articulos.
+ *
+ * @author Carlos Gilberto Olvera Casanova
  * 
+ *
+ * @version 1.0.0
  */
 @RestController
 @RequestMapping("/articulos")
@@ -57,20 +60,25 @@ public class ArticuloController extends CommonsController {
 
 	private final ArticuloDirector articuloDirector;
 
-	@Autowired
 	@Qualifier("articuloControllerAssembler")
-	private AbstractReflectionHateoas<Articulo> assambler;
+	private final AbstractReflectionHateoas<Articulo> assambler;
 	
 	/**
 	 * 
 	 */
 	public ArticuloController(ArticuloService articuloService, ArticuloBuilder articuloBuilder,
-			ArticuloDirector articuloDirector) {
+			ArticuloDirector articuloDirector, AbstractReflectionHateoas<Articulo> assambler) {
 		this.articuloService = articuloService;
 		this.articuloBuilder = articuloBuilder;
 		this.articuloDirector = articuloDirector;
+		this.assambler = assambler;
 	}
 
+	/**
+	 * Obtiene un articulo por su identificador si existe.
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/{id}")
 	@Operation(
 			summary = "Recupera un articulo.",
@@ -104,6 +112,10 @@ public class ArticuloController extends CommonsController {
 
 	}
 
+	/**
+	 * Obtiene una collecci&oacute;n de articulos. En caso de no tener elementos ser&aacute; una lista vac&iacute;a.
+	 * @return
+	 */
 	@GetMapping()
 	@Operation(
 			summary = "Listado de articulos.",
@@ -130,11 +142,15 @@ public class ArticuloController extends CommonsController {
 	public CollectionModel<EntityModel<Articulo>> getArticulos() {
 
 		List<EntityModel<Articulo>> articulos = articuloService.obtenerArticulos().stream()
-				.map(articulo -> assambler.toModel(articulo, CRUDMethod.GET))
-				.collect(Collectors.toList());
+				.map(articulo -> assambler.toModel(articulo, CRUDMethod.GET)).toList();
 		return CollectionModel.of(articulos);
 	}
 
+	/**
+	 * Elimina un articulo por su identificador.
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/{id}")
 	@Operation(
 			summary = "Eliminacion un articulo.",
@@ -168,6 +184,13 @@ public class ArticuloController extends CommonsController {
 		}
 	}
 
+	/**
+	 * Actualiza la informaci&oacute;n del articulo.
+	 * 
+	 * @param id
+	 * @param articuloDTO
+	 * @return
+	 */
 	@PutMapping("/{id}")
 	@Operation(
 			summary = "Actualiza un articulo.",
@@ -224,6 +247,12 @@ public class ArticuloController extends CommonsController {
 		articuloDirector.construirArticulo();
 	}
 
+	/**
+	 * Registra un articulo.
+	 * 
+	 * @param articuloDTO
+	 * @return
+	 */
 	@PostMapping()
 	@Operation(
 			summary = "Registra un articulo.",

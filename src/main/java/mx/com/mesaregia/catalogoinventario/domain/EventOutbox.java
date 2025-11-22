@@ -28,7 +28,7 @@ public class EventOutbox {
 	@Id
 	private Integer idEvento;
 	private String tipoEvento;
-	private String JSON;
+	private String json;
 	private Date fechaRegistro;
 	private boolean procesado;
 
@@ -43,7 +43,7 @@ public class EventOutbox {
 		super();
 		this.idEvento = idEvento;
 		this.tipoEvento = tipoEvento;
-		JSON = jSON;
+		json = jSON;
 		this.fechaRegistro = fechaRegistro;
 		this.procesado = procesado;
 	}

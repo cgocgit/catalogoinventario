@@ -1,13 +1,12 @@
 package mx.com.mesaregia.catalogoinventario.api;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,14 +22,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import mx.com.mesaregia.catalogoinventario.application.inventario.InventarioBussines;
 import mx.com.mesaregia.catalogoinventario.application.inventario.InventarioService;
 import mx.com.mesaregia.catalogoinventario.domain.EstadoArticulo;
-import mx.com.mesaregia.catalogoinventario.domain.ExistenciaArticulo;
-import mx.com.mesaregia.catalogoinventario.domain.Inventario;
+import mx.com.mesaregia.catalogoinventario.dto.ExistenciaArticuloDTO;
+import mx.com.mesaregia.catalogoinventario.dto.InventarioDTO;
 import mx.com.mesaregia.catalogoinventario.dto.RegistroInventarioDTO;
 
 /**
- *
+ * Controllador para la administración del inventario.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *
@@ -41,15 +42,16 @@ import mx.com.mesaregia.catalogoinventario.dto.RegistroInventarioDTO;
 @Tag(name = "Administrador de Inventario", description = "Gestiona el inventario de Articulos.")
 public class InventarioController extends CommonsController {
 
+	private final InventarioBussines inventarioBussines;
 	private final InventarioService inventarioService;
 	
 	/**
 	 * 
 	 */
-	public InventarioController(InventarioService inventarioService) {
+	public InventarioController(InventarioService inventarioService, InventarioBussines inventarioBussines) {
 		this.inventarioService = inventarioService;
+		this.inventarioBussines = inventarioBussines;
 	}
-	
 	
 	@PostMapping()
 	@Operation(
@@ -79,10 +81,11 @@ public class InventarioController extends CommonsController {
 							)
 			}
 			)
-	EntityModel<GenericResponse> registrarInventario(@NotNull @RequestBody RegistroInventarioDTO inventario) {
+	ResponseEntity<EntityModel<ExistenciaArticuloDTO>> registrarInventario(@NotNull @RequestBody RegistroInventarioDTO inventario) {
 		try {
-			ExistenciaArticulo existenciaArticulo = inventarioService.agregarArticulo(inventario.getIdInventario(), inventario.getIdArticulo(), inventario.getCodigoUnidad());
-			return EntityModel.of(getExito("0", "Operacion con exito", existenciaArticulo));
+			ExistenciaArticuloDTO existenciaArticuloDTO = inventarioBussines.registrarInventario(inventario);
+			EntityModel<ExistenciaArticuloDTO> model = EntityModel.of(existenciaArticuloDTO);
+			return ResponseEntity.ok(model);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -112,8 +115,9 @@ public class InventarioController extends CommonsController {
 							)
 			}
 			)
-	public CollectionModel<EntityModel<Inventario>> obtenerInventario() {
-		List<EntityModel<Inventario>> invetario = inventarioService.consultarInventario().stream().map(inv -> EntityModel.of(inv)).collect(Collectors.toList());
+	public CollectionModel<EntityModel<InventarioDTO>> obtenerInventario() {
+		List<EntityModel<InventarioDTO>> invetario = inventarioBussines.consultarInventario(0).stream()
+				.map(EntityModel::of).toList();
 		return CollectionModel.of(invetario);
 	}
 	
@@ -145,7 +149,7 @@ public class InventarioController extends CommonsController {
 							)
 			}
 			)
-	public EntityModel<GenericResponse> actualizarInventario(@Min(value = 1) @PathVariable int id,
+	public EntityModel<GenericResponse> actualizarInventario(@Min(value = 1) @PathVariable Integer id,
 			@NotNull @RequestBody EstadoArticulo estado) {
 		try {
 			inventarioService.actualizarEstadoArticulo(id, estado);

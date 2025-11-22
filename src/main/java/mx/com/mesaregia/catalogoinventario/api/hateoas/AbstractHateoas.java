@@ -6,7 +6,8 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 
 /**
- *
+ * Soporte para implementaciones de HATEOAS.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *
@@ -17,7 +18,7 @@ public abstract class AbstractHateoas<T> implements RepresentationModelAssembler
 	/**
 	 * 
 	 */
-	public AbstractHateoas() {
+	protected AbstractHateoas() {
 		/*Main constructor */
 	}
 	

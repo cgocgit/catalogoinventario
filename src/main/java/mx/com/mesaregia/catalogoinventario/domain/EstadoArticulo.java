@@ -13,8 +13,8 @@ package mx.com.mesaregia.catalogoinventario.domain;
  */
 public enum EstadoArticulo {
 
-	Disponible("Disponible"), Reservado("Reservado"), Danado("Dañado"), Mantenimiento("Mantenimiento"),
-	Limpieza("Limpieza");
+	DISPONIBLE("Disponible"), RESERVADO("Reservado"), DANADO("Dañado"), MANTENIMIENTO("Mantenimiento"),
+	LIMPIEZA("Limpieza");
 
 	private String descripcion;
 

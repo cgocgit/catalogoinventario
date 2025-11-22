@@ -9,7 +9,7 @@ package mx.com.mesaregia.catalogoinventario.dto;
  */
 public enum TipoDetalle {
 
-	Articulo("Articulo"), Servicio("Servicio");
+	ARTICULO("Articulo"), SERVICIO("Servicio");
 	
 	private String descripcion;
 	

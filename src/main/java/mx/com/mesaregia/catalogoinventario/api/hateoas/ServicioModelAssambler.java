@@ -11,7 +11,7 @@ import mx.com.mesaregia.catalogoinventario.api.ServicioController;
 import mx.com.mesaregia.catalogoinventario.domain.Servicio;
 
 /**
- *
+ * Hypermedia as the Engine of Application State for Controller Servicios.
  * @author Carlos Gilberto Olvera Casanova
  * 
  *
@@ -19,7 +19,6 @@ import mx.com.mesaregia.catalogoinventario.domain.Servicio;
  */
 @Component("assamblerServicio")
 public class ServicioModelAssambler extends AbstractHateoas<Servicio> {
-//implements RepresentationModelAssembler<Servicio, EntityModel<Servicio>> {
 
 	private static final Class<ServicioController> CONTROLLERTYPESERVICIO = ServicioController.class;
 
@@ -119,20 +118,16 @@ public class ServicioModelAssambler extends AbstractHateoas<Servicio> {
 
 	@Override
 	protected Affordance affordPatch(Servicio model) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 		public EntityModel<Void> toModel(int id, CRUDMethod operacion) {
-		switch (operacion) {
-		case DELETE:
+		if (CRUDMethod.DELETE.equals(operacion))
 			return setHateoasDelete(id);
-		default:
-			break;
-		}
 		return null;
-		}
+	}
 
 	/**
 	 * @param id

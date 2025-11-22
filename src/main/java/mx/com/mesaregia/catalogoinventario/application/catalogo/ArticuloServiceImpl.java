@@ -25,10 +25,10 @@ public class ArticuloServiceImpl implements ArticuloService {
 	
 	private static final Logger log = LoggerFactory.getLogger(ArticuloServiceImpl.class);
 
+	private static final String ARTICULONOENCONTRADO = "El articulo no se ha encontrado.";
+	
 	private final ArticuloRepository articuloRepository;
 	
-	private final String ARTICULONOENCONTRADO = "El articulo no se ha encontrado."; 
-
 	/**
 	 * 
 	 */
@@ -87,7 +87,7 @@ public class ArticuloServiceImpl implements ArticuloService {
 	public Articulo registrarArticulo(Articulo articulo) {
 		articulo.setActivo(true);
 		articulo.setIdArticulo(null);
-		log.info(articulo.toString());
+		log.info("Regstro del articulo {}", articulo);
 		articuloRepository.save(articulo);
 		return articulo;
 	}

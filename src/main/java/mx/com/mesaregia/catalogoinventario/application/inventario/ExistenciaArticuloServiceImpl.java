@@ -54,7 +54,7 @@ public class ExistenciaArticuloServiceImpl implements ExistenciaArticuloService 
 		ExistenciaArticulo existenciaArticuloEnRepo = repository.findById(existenciaArticulo.getIdExistencia()).orElse(null);
 		if (Objects.isNull(existenciaArticuloEnRepo))
 			throw new NotFoundException("Articulo no se encuentra en inventario.");
-		existenciaArticuloEnRepo.setEstado(EstadoArticulo.Danado);
+		existenciaArticuloEnRepo.setEstado(EstadoArticulo.DANADO);
 		repository.save(existenciaArticuloEnRepo);
 	}
 

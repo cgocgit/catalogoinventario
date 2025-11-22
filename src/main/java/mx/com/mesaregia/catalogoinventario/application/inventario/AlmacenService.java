@@ -3,7 +3,8 @@ package mx.com.mesaregia.catalogoinventario.application.inventario;
 import mx.com.mesaregia.catalogoinventario.domain.Almacen;
 
 /**
- *
+ * Transaccional para obtenci&oacute; Almacen.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

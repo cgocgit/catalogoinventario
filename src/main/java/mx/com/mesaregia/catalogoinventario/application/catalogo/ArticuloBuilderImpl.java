@@ -76,11 +76,11 @@ public class ArticuloBuilderImpl implements ArticuloBuilder {
 	@Override
 	public void preparar() {
 		articulo = new Articulo();
+		articulo.setFechaRegistro(new Date());
 	}
 
 	@Override
 	public void setIdArticulo(Long idArticulo) {
 		articulo.setIdArticulo(idArticulo);
 	}
-
 }

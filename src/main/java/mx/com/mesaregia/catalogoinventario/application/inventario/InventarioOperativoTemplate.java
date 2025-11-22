@@ -53,7 +53,7 @@ public abstract class InventarioOperativoTemplate implements InventarioService {
 		actualizarInventario(existenciaArticuloPersistir.getAlmacen().getIdAlmacen(),
 				existenciaArticuloPersistir.getArticulo().getIdArticulo().intValue());
 
-		MovimientoInventario movimientoInventario = construirMovimientoInventario(existenciaArticuloPersistir, "Alta de articulo en inventario", TipoMovimiento.Entrada);
+		MovimientoInventario movimientoInventario = construirMovimientoInventario(existenciaArticuloPersistir, "Alta de articulo en inventario", TipoMovimiento.ENTRADA);
 		registrarMovimiento(movimientoInventario);
 
 		return existenciaArticuloPersistir;

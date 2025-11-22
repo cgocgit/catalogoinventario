@@ -3,6 +3,8 @@ package mx.com.mesaregia.catalogoinventario.application.inventario;
 import java.util.Collection;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import mx.com.mesaregia.catalogoinventario.api.NotFoundException;
@@ -19,6 +21,8 @@ import mx.com.mesaregia.catalogoinventario.repository.InventarioRepository;
 @Service
 public class InventariadoServiceImpl implements InventariadoService {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(InventariadoServiceImpl.class);
+	
 	private final InventarioRepository repository;
 	
 	/**
@@ -44,13 +48,17 @@ public class InventariadoServiceImpl implements InventariadoService {
 	
 	@Override
 	public Inventario registrar(Inventario inventario) {
+		LOGGER.info("Registrar inventario: {}", inventario);
 		repository.saveAndFlush(inventario);
+		LOGGER.info("Inventario registrado: {}", inventario);
 		return inventario;
 	}
 
 	@Override
 	public Collection<Inventario> obtener() {
-		return repository.findAll();
+		Collection<Inventario> lst = repository.findAll();
+		lst.forEach(inv -> LOGGER.info(inv.toString()));
+		return lst;
 	}
 
 }

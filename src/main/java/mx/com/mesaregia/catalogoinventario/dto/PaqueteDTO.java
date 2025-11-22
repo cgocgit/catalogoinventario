@@ -33,7 +33,6 @@ public class PaqueteDTO {
 	 * 
 	 */
 	public PaqueteDTO() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public PaqueteDTO(String codigoPaquete, String descripcion, String nombrePaquete, Double precio,

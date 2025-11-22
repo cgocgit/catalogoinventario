@@ -23,8 +23,7 @@ public class DetallePaqueteServicioService implements DetallePaqueteService<Deta
 
 	private final DetallePaqueteServicioRepository repository;
 
-	public DetallePaqueteServicioService(PaqueteService paqueteService, ServicioService servicioService,
-			DetallePaqueteServicioRepository repository) {
+	public DetallePaqueteServicioService(DetallePaqueteServicioRepository repository) {
 		super();
 		this.repository = repository;
 	}
@@ -35,7 +34,6 @@ public class DetallePaqueteServicioService implements DetallePaqueteService<Deta
 			throw new NotFoundException("El paquete no existe o no esta disponible");
 		if (Objects.isNull(v))
 			throw new NotFoundException("El servicio no existe o no esta disponible");
-//		validaExistencia(paquete, v);
 		DetallePaqueteServicio detalle = new DetallePaqueteServicio();
 		detalle.setCantidad(cantidad);
 		detalle.setPaquete(paquete);
@@ -57,12 +55,5 @@ public class DetallePaqueteServicioService implements DetallePaqueteService<Deta
 		repository.delete(servicioEnPaquete);
 		return servicioEnPaquete;
 	}
-
-//	@Override
-//	public DetallePaqueteServicio agregarAPaquete(int idPaquete, int v, int cantidad, double precio) {
-//		return agregarAPaquete(buscarPaquete(idPaquete), buscarElemento(v), cantidad, precio);
-//	}
-
-	
 
 }

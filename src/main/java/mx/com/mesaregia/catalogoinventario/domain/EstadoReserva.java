@@ -13,7 +13,7 @@ package mx.com.mesaregia.catalogoinventario.domain;
  */
 public enum EstadoReserva {
 	
-	Pendiente("Pendiente"), Confirmada("Confirmada"), Cancelada("Cancelada"), Finalizada("Finalizada");
+	PENDIENTE("Pendiente"), CONFIRMADA("Confirmada"), CANCELADA("Cancelada"), FINALIZADA("Finalizada");
 	
 	private String descripcion;
 

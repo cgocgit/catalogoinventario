@@ -21,8 +21,8 @@ public class PaqueteBuilderImpl implements PaqueteBuilder {
 	/**
 	 * 
 	 */
-	public PaqueteBuilderImpl() {
-		// TODO Auto-generated constructor stub
+	protected PaqueteBuilderImpl() {
+		/* Main constructor*/
 	}
 
 	@Override

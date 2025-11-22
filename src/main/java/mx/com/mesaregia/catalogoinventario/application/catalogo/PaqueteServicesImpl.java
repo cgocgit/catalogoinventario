@@ -53,7 +53,7 @@ public class PaqueteServicesImpl implements PaqueteService {
 
 	@Override
 	public void bajarPaquete(Integer idPaquete) throws NotFoundException {
-		Paquete paquete = paqueteRepository.findById(idPaquete).get();
+		Paquete paquete = paqueteRepository.findById(idPaquete).orElse(null);
 		if (Objects.isNull(paquete))
 			throw new NotFoundException();
 		paquete.setActivo(false);
@@ -75,7 +75,7 @@ public class PaqueteServicesImpl implements PaqueteService {
 		paquete.setActivo(true);
 		paquete.setIdPaquete(null);
 		paqueteRepository.save(paquete);
-		log.info(paquete.toString());
+		log.info("Paquete registrado {}", paquete);
 		return paquete;
 	}
 

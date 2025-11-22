@@ -37,8 +37,8 @@ public class ServicioDTO {
 	/**
 	 * 
 	 */
-	public ServicioDTO() {
-		// TODO Auto-generated constructor stub
+	protected ServicioDTO() {
+		/*Main constructor */
 	}
 
 	public ServicioDTO(String codigoServicio, String nombreServicio, String descripcion, TipoServicio tipoServicio,

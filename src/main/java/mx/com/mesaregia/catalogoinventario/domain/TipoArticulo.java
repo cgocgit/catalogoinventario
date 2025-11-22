@@ -1,7 +1,5 @@
 package mx.com.mesaregia.catalogoinventario.domain;
 
-import java.util.Set;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
@@ -32,8 +30,7 @@ public class TipoArticulo {
 		/* Constructor principal */
 	}
 
-	public TipoArticulo(int idTipoArticulo, String nombreTipo, String descripcion, NivelControl nivelControl,
-			Set<Articulo> articulos) {
+	public TipoArticulo(int idTipoArticulo, String nombreTipo, String descripcion, NivelControl nivelControl) {
 		super();
 		this.idTipoArticulo = idTipoArticulo;
 		this.nombreTipo = nombreTipo;

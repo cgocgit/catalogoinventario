@@ -3,7 +3,8 @@ package mx.com.mesaregia.catalogoinventario.api;
 import lombok.Data;
 
 /**
- *
+ * Utilidad que apoya en mensajes estandarizados.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *
@@ -20,8 +21,8 @@ public class GenericResponse {
 	/**
 	 * 
 	 */
-	public GenericResponse() {
-		// TODO Auto-generated constructor stub
+	protected GenericResponse() {
+	
 	}
 
 	public GenericResponse(String codigo, String mensaje, Object obj) {

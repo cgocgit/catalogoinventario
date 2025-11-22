@@ -34,8 +34,8 @@ public class PaqueteDirector {
 	/**
 	 * 
 	 */
-	public PaqueteDirector() {
-		// TODO Auto-generated constructor stub
+	protected PaqueteDirector() {
+		/*Main constructor*/
 	}
 	
 	public void construirPaquete() {

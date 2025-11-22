@@ -25,7 +25,7 @@ public class RegistroInventarioDTO {
 	 * 
 	 */
 	public RegistroInventarioDTO() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public RegistroInventarioDTO(int idInventario, int idArticulo, String codigoUnidad) {

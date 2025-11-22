@@ -1,7 +1,8 @@
 package mx.com.mesaregia.catalogoinventario.api;
 
 /**
- *
+ * Soporte para clases controller.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

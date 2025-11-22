@@ -7,7 +7,8 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.servers.Server;
 
 /**
- *
+ * Configuraci&oacute;n para documentaci$oacute;n en Swagger.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

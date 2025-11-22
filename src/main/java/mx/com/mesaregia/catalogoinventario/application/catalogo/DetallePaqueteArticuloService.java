@@ -28,9 +28,9 @@ public class DetallePaqueteArticuloService
 
 	private final DetallePaqueteArticuloRepository repository;
 	
-	public DetallePaqueteArticuloService(PaqueteService paqueteService, ArticuloService aticuloService,
-			DetallePaqueteArticuloRepository repository) {
+	public DetallePaqueteArticuloService(DetallePaqueteArticuloRepository repository) {
 		super();
+		
 		this.repository = repository;
 	}
 
@@ -40,7 +40,6 @@ public class DetallePaqueteArticuloService
 			throw new NotFoundException("El paquete no existe o no esta disponible");
 		if (Objects.isNull(v))
 			throw new NotFoundException("El servicio no existe o no esta disponible");
-//		validaExistencia(paquete, v);
 		DetallePaqueteArticulo detalle = new DetallePaqueteArticulo();
 		detalle.setCantidad(cantidad);
 		detalle.setPaquete(paquete);
@@ -60,16 +59,8 @@ public class DetallePaqueteArticuloService
 		if (Objects.isNull(articuloEnPaquete))
 			throw new NotFoundException("El detalle no se encuentra en el paquete.");
 		repository.delete(articuloEnPaquete);
-		LOGGER.info(articuloEnPaquete.toString());
+		LOGGER.info("Se elimino del paquete: {}", articuloEnPaquete);
 		return articuloEnPaquete;
 	}
-
-
-//	@Deprecated
-//	@Override
-//	public DetallePaqueteArticulo agregarAPaquete(int idPaquete, int v, int cantidad, double precio) {
-//		return null;
-//	}
-
 
 }

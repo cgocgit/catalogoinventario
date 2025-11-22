@@ -11,7 +11,8 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 
 /**
- *
+ * Soporte para implementaciones de HATEOAS con examinaci&oacute;n de clases.
+ *  
  * @author Carlos Gilberto Olvera Casanova
  * 
  *
@@ -24,7 +25,7 @@ public abstract class AbstractReflectionHateoas<T> implements RepresentationMode
 	/**
 	 * 
 	 */
-	public AbstractReflectionHateoas(Class<?> controller) {
+	protected AbstractReflectionHateoas(Class<?> controller) {
 		/* Main constraint */
 		this.controller = controller;
 	}

@@ -27,7 +27,7 @@ public class TipoArticuloServiceImpl implements TipoArticuloService {
 
 	@Override
 	public TipoArticulo obtenerTipoArticulo(int idTipoArticulo) {
-		return tipoArticuloRepository.findById(idTipoArticulo).get();
+		return tipoArticuloRepository.findById(idTipoArticulo).orElse(null);
 	}
 
 	@Override

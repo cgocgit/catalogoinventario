@@ -14,7 +14,7 @@ import mx.com.mesaregia.catalogoinventario.dto.PaqueteDTO;
 import mx.com.mesaregia.catalogoinventario.dto.TipoDetalle;
 
 /**
- *
+ * Hypermedia as the Engine of Application State for Controller elementos en Paquete.
  * @author Carlos Gilberto Olvera Casanova
  * 
  *
@@ -22,6 +22,31 @@ import mx.com.mesaregia.catalogoinventario.dto.TipoDetalle;
  */
 @Component("detallePaqueteControllerAssembler")
 public class DetallePaqueteModelAssambler extends AbstractReflectionHateoas<DetalleEnPaqueteDTO> {
+
+	/**
+	 * 
+	 */
+	private static final String QUITARSERVICIODELPAQUETE = "quitarServicioDelPaquete";
+	/**
+	 * 
+	 */
+	private static final String QUITARARTICULODELPAQUETE = "quitarArticuloDelPaquete";
+	/**
+	 * 
+	 */
+	private static final String REGISTRARSERVICIO = "registrarServicio";
+	/**
+	 * 
+	 */
+	private static final String REGISTRARARTICULO = "registrarArticulo";
+	/**
+	 * 
+	 */
+	private static final String GETDETALLES = "getDetalles";
+	/**
+	 * 
+	 */
+	private static final String ACTUALIZARPAQUETE = "actualizarPaquete";
 
 	/**
 	 * @param controller
@@ -39,19 +64,19 @@ public class DetallePaqueteModelAssambler extends AbstractReflectionHateoas<Deta
 	public Affordance getAffordance(DetalleEnPaqueteDTO modelo, CRUDMethod operacion) {
 		switch (operacion) {
 		case GET:
-			return getAffordance("getDetalles", modelo.getIdPaquete());
+			return getAffordance(GETDETALLES, modelo.getIdPaquete());
 		case POST:
-			if (TipoDetalle.Articulo.equals(modelo.getTipoDetalle()))
-				return getAffordance("registrarArticulo", new DetallePaqueteDTO());
+			if (TipoDetalle.ARTICULO.equals(modelo.getTipoDetalle()))
+				return getAffordance(REGISTRARARTICULO, new DetallePaqueteDTO());
 			else
-				return getAffordance("registrarServicio", new DetallePaqueteDTO());
+				return getAffordance(REGISTRARSERVICIO, new DetallePaqueteDTO());
 		case PUT:
-			return getAffordance("actualizarPaquete", modelo.getIdPaquete(), new PaqueteDTO());
+			return getAffordance(ACTUALIZARPAQUETE, modelo.getIdPaquete(), new PaqueteDTO());
 		case DELETE:
-			if (TipoDetalle.Articulo.equals(modelo.getTipoDetalle()))
-				return getAffordance("quitarArticuloDelPaquete", modelo.getIdDetallePaquete());
+			if (TipoDetalle.ARTICULO.equals(modelo.getTipoDetalle()))
+				return getAffordance(QUITARARTICULODELPAQUETE, modelo.getIdDetallePaquete());
 			else
-				return getAffordance("quitarServicioDelPaquete", modelo.getIdDetallePaquete());
+				return getAffordance(QUITARSERVICIODELPAQUETE, modelo.getIdDetallePaquete());
 		default:
 			break;
 		}
@@ -60,13 +85,11 @@ public class DetallePaqueteModelAssambler extends AbstractReflectionHateoas<Deta
 
 	@Override
 	protected EntityModel<DetalleEnPaqueteDTO> setHateoasPatch(DetalleEnPaqueteDTO modelo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected EntityModel<DetalleEnPaqueteDTO> setHateoasDelete(DetalleEnPaqueteDTO modelo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -134,10 +157,10 @@ public class DetallePaqueteModelAssambler extends AbstractReflectionHateoas<Deta
 	 */
 	private Link linkEliminar(DetalleEnPaqueteDTO modelo)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		if (TipoDetalle.Articulo.equals(modelo.getTipoDetalle()))
-			return linkToMetodo("quitarArticuloDelPaquete", "quitarArticuloDelPaquete", false, modelo.getIdDetallePaquete());
+		if (TipoDetalle.ARTICULO.equals(modelo.getTipoDetalle()))
+			return linkToMetodo(QUITARARTICULODELPAQUETE, QUITARARTICULODELPAQUETE, false, modelo.getIdDetallePaquete());
 		else
-			return linkToMetodo("quitarServicioDelPaquete", "quitarServicioDelPaquete", false, modelo.getIdDetallePaquete());
+			return linkToMetodo(QUITARSERVICIODELPAQUETE, QUITARSERVICIODELPAQUETE, false, modelo.getIdDetallePaquete());
 	}
 
 	/**
@@ -149,7 +172,7 @@ public class DetallePaqueteModelAssambler extends AbstractReflectionHateoas<Deta
 	 */
 	private Link linkActualizar(DetalleEnPaqueteDTO modelo)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return linkToMetodo("actualizarPaquete", "actualizarPaquete", false, modelo.getIdPaquete(), new PaqueteDTO());
+		return linkToMetodo(ACTUALIZARPAQUETE, ACTUALIZARPAQUETE, false, modelo.getIdPaquete(), new PaqueteDTO());
 	}
 
 	/**
@@ -157,10 +180,10 @@ public class DetallePaqueteModelAssambler extends AbstractReflectionHateoas<Deta
 	 * @return
 	 */
 	private Link linkRegistrar(DetalleEnPaqueteDTO modelo) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		if (TipoDetalle.Articulo.equals(modelo.getTipoDetalle()))
-			return linkToMetodo("registrarArticulo", "registrarArticulo", false, new DetallePaqueteDTO());
+		if (TipoDetalle.ARTICULO.equals(modelo.getTipoDetalle()))
+			return linkToMetodo(REGISTRARARTICULO, REGISTRARARTICULO, false, new DetallePaqueteDTO());
 		else
-			return linkToMetodo("registrarServicio", "registrarServicio", false, new DetallePaqueteDTO());
+			return linkToMetodo(REGISTRARSERVICIO, REGISTRARSERVICIO, false, new DetallePaqueteDTO());
 	}
 	
 	/**
@@ -172,7 +195,7 @@ public class DetallePaqueteModelAssambler extends AbstractReflectionHateoas<Deta
 	 */
 	private Link linkOne(DetalleEnPaqueteDTO modelo)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return linkToMetodo("getDetalles", "obtener", false, modelo.getIdPaquete());
+		return linkToMetodo(GETDETALLES, "obtener", false, modelo.getIdPaquete());
 	}
 
 }

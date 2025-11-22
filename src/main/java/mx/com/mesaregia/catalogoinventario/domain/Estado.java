@@ -9,7 +9,7 @@ package mx.com.mesaregia.catalogoinventario.domain;
  * @version 1.0.0
  */
 public enum Estado {
-	Activo ("Activo"), Inactivo ("Inactivo");
+	ACTIVO("Activo"), INACTIVO("Inactivo");
 	
 	private String descripcion;
 	

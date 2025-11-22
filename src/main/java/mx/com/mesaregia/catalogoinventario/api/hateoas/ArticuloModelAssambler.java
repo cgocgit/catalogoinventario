@@ -12,7 +12,7 @@ import mx.com.mesaregia.catalogoinventario.domain.Articulo;
 import mx.com.mesaregia.catalogoinventario.dto.ArticuloDTO;
 
 /**
- *
+ * Hypermedia as the Engine of Application State for Controller Articulos.
  * @author Carlos Gilberto Olvera Casanova
  * 
  *
@@ -20,6 +20,23 @@ import mx.com.mesaregia.catalogoinventario.dto.ArticuloDTO;
  */
 @Component("articuloControllerAssembler")
 public class ArticuloModelAssambler extends AbstractReflectionHateoas<Articulo> {
+
+	/**
+	 * 
+	 */
+	private static final String ONE = "one";
+	/**
+	 * 
+	 */
+	private static final String REGISTRARARTICULO = "registrarArticulo";
+	/**
+	 * 
+	 */
+	private static final String ACTUALIZARARTICULO = "actualizarArticulo";
+	/**
+	 * 
+	 */
+	private static final String BAJARARTICULO = "bajarArticulo";
 
 	/**
 	 * @param controller
@@ -37,13 +54,13 @@ public class ArticuloModelAssambler extends AbstractReflectionHateoas<Articulo> 
 	public Affordance getAffordance(Articulo modelo, CRUDMethod operacion) {
 		switch (operacion) {
 		case GET:
-			getAffordance("one", modelo.getIdArticulo().intValue());
+			return getAffordance(ONE, modelo.getIdArticulo().intValue());
 		case POST:
-			getAffordance("registrarArticulo", new ArticuloDTO());
+			return getAffordance(REGISTRARARTICULO, new ArticuloDTO());
 		case PUT:
-			return getAffordance("actualizarArticulo", modelo.getIdArticulo().intValue(), new ArticuloDTO());
+			return getAffordance(ACTUALIZARARTICULO, modelo.getIdArticulo().intValue(), new ArticuloDTO());
 		case DELETE:
-			return getAffordance("bajarArticulo", modelo.getIdArticulo().intValue());
+			return getAffordance(BAJARARTICULO, modelo.getIdArticulo().intValue());
 		default:
 			break;
 		}
@@ -52,13 +69,11 @@ public class ArticuloModelAssambler extends AbstractReflectionHateoas<Articulo> 
 
 	@Override
 	protected EntityModel<Articulo> setHateoasPatch(Articulo modelo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected EntityModel<Articulo> setHateoasDelete(Articulo modelo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -85,7 +100,7 @@ public class ArticuloModelAssambler extends AbstractReflectionHateoas<Articulo> 
 	@Override
 	protected EntityModel<Articulo> setHateoasPost(Articulo modelo) {
 		try {
-			Link link = linkRegistrar(modelo)
+			Link link = linkRegistrar()
 			.andAffordance(getAffordance(modelo, CRUDMethod.GET))
 			.andAffordance(getAffordance(modelo, CRUDMethod.PUT))
 			.andAffordance(getAffordance(modelo, CRUDMethod.DELETE));
@@ -131,7 +146,7 @@ public class ArticuloModelAssambler extends AbstractReflectionHateoas<Articulo> 
 	 */
 	private Link linkEliminar(Articulo modelo)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return linkToMetodo("bajarArticulo", "bajarArticulo", false, modelo.getIdArticulo().intValue());
+		return linkToMetodo(BAJARARTICULO, BAJARARTICULO, false, modelo.getIdArticulo().intValue());
 	}
 
 	/**
@@ -143,15 +158,15 @@ public class ArticuloModelAssambler extends AbstractReflectionHateoas<Articulo> 
 	 */
 	private Link linkActualizar(Articulo modelo)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return linkToMetodo("actualizarArticulo", "actualizarPaquete", false, modelo.getIdArticulo().intValue(), new ArticuloDTO());
+		return linkToMetodo(ACTUALIZARARTICULO, "actualizarPaquete", false, modelo.getIdArticulo().intValue(), new ArticuloDTO());
 	}
 
 	/**
 	 * @param modelo
 	 * @return
 	 */
-	private Link linkRegistrar(Articulo modelo) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return linkToMetodo("registrarArticulo", "registrarArticulo", false, new ArticuloDTO());
+	private Link linkRegistrar() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+		return linkToMetodo(REGISTRARARTICULO, REGISTRARARTICULO, false, new ArticuloDTO());
 	}
 	
 	/**
@@ -163,7 +178,7 @@ public class ArticuloModelAssambler extends AbstractReflectionHateoas<Articulo> 
 	 */
 	private Link linkOne(Articulo modelo)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return linkToMetodo("one", "obtener", false, modelo.getIdArticulo().intValue());
+		return linkToMetodo(ONE, "obtener", false, modelo.getIdArticulo().intValue());
 	}
 
 }

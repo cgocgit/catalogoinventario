@@ -9,7 +9,7 @@ package mx.com.mesaregia.catalogoinventario.domain;
  * @version 1.0.0
  */
 public enum Tipo {
-	Costo("Costo"), Ingreso("Ingreso");
+	COSTO("Costo"), INGRESO("Ingreso");
 
 	private String descripcion;
 

@@ -113,6 +113,7 @@ public class InventarioServiceImpl extends InventarioOperativoTemplate implement
 			inventario.setStockMaximo(1);
 			inventario.setFechaActualizacion(new Date());
 			inventario.setUsuarioActualizacion("Admin");
+			inventario.setCantidadActual(cantidadActual);
 			inventariadoService.registrar(inventario);
 		} else {
 			inventario.setCantidadActual(cantidadActual);

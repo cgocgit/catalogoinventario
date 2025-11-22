@@ -27,7 +27,7 @@ public class Categoria {
 	private Integer idCategoria;
 	private String nombreCategoria;
 	private String descripcion;
-	private TipoCategoria categoria;
+	private TipoCategoria tipoCategoria;
 		
 	/**
 	 * 
@@ -41,7 +41,7 @@ public class Categoria {
 		this.idCategoria = idCategoria;
 		this.nombreCategoria = nombreCategoria;
 		this.descripcion = descripcion;
-		this.categoria = categoria;
+		this.tipoCategoria = categoria;
 	}
 	
 	

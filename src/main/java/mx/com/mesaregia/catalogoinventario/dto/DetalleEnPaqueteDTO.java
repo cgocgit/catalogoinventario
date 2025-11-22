@@ -78,8 +78,7 @@ public class DetalleEnPaqueteDTO {
 	/**
 	 * 
 	 */
-	public DetalleEnPaqueteDTO() {
-		// TODO Auto-generated constructor stub
+	protected DetalleEnPaqueteDTO() {
 	}
 
 }

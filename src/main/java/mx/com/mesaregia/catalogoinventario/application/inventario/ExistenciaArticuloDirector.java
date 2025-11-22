@@ -30,7 +30,7 @@ public class ExistenciaArticuloDirector {
 		builder.preparar();
 		builder.setAlmacen(almacenService.obtenerAlmacen(idAlmacen));
 		builder.setCodigoUnidad(codigoUnidad);
-		builder.setEstadoArticulo(EstadoArticulo.Disponible);
+		builder.setEstadoArticulo(EstadoArticulo.DISPONIBLE);
 		builder.setArticulo(articuloService.obtenerArticulo(idArticulo));
 	}
 

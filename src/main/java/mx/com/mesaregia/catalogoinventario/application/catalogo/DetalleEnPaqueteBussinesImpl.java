@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import mx.com.mesaregia.catalogoinventario.api.ItsExistException;
 import mx.com.mesaregia.catalogoinventario.api.NotFoundException;
@@ -25,7 +25,7 @@ import mx.com.mesaregia.catalogoinventario.dto.TipoDetalle;
  *
  * @version 1.0.0 
  */
-@Component
+@Service
 public class DetalleEnPaqueteBussinesImpl implements DetallePaqueteBussines {
 
 	/**
@@ -80,7 +80,7 @@ public class DetalleEnPaqueteBussinesImpl implements DetallePaqueteBussines {
 		@Override
 		protected void validaExistencia(Paquete paquete, Articulo v) throws ItsExistException {
 			Collection<DetallePaqueteArticulo> detallesEnPaquete = detallePaqueteArticuloService
-					.consultarDetalleEnPaquete(paquete.getIdPaquete()); // repository.findByIdPaquete(paquete.getIdPaquete());
+					.consultarDetalleEnPaquete(paquete.getIdPaquete());
 			DetallePaqueteArticulo servicioEncontrado = detallesEnPaquete.stream()
 					.filter(s -> s.getArticulo().getIdArticulo().equals(v.getIdArticulo())).findFirst().orElse(null);
 			if (Objects.nonNull(servicioEncontrado))
@@ -109,7 +109,7 @@ public class DetalleEnPaqueteBussinesImpl implements DetallePaqueteBussines {
 		@Override
 		protected void validaExistencia(Paquete paquete, Servicio v) throws ItsExistException {
 			Collection<DetallePaqueteServicio> detallesEnPaquete = detallePaqueteServicioService
-					.consultarDetalleEnPaquete(paquete.getIdPaquete()); //repository.findByIdPaquete(paquete.getIdPaquete());
+					.consultarDetalleEnPaquete(paquete.getIdPaquete());
 			DetallePaqueteServicio servicioEncontrado = detallesEnPaquete.stream()
 					.filter(s -> s.getServicio().getIdServicio().equals(v.getIdServicio())).findFirst().orElse(null);
 			if (Objects.nonNull(servicioEncontrado))
@@ -142,7 +142,7 @@ public class DetalleEnPaqueteBussinesImpl implements DetallePaqueteBussines {
 	public DetalleEnPaqueteDTO agregarAPaquete(int idPaquete, int v, int cantidad, double precio,
 			TipoDetalle tipoDetalle) throws NotFoundException, ItsExistException {
 		var paquete = articuloPaquete.buscarPaquete(idPaquete);
-		if (TipoDetalle.Articulo.equals(tipoDetalle)) {
+		if (TipoDetalle.ARTICULO.equals(tipoDetalle)) {
 			var articulo = articuloPaquete.buscarElemento(v);
 			articuloPaquete.validaExistencia(paquete, articulo);
 			DetallePaqueteArticulo detallePaqueteArticulo = detallePaqueteArticuloService.agregarAPaquete(
@@ -169,7 +169,7 @@ public class DetalleEnPaqueteBussinesImpl implements DetallePaqueteBussines {
 
 	@Override
 	public Paquete quitarDelPaquete(int idDetallePaquete, TipoDetalle tipoDetalle) throws NotFoundException {
-		if (TipoDetalle.Articulo.equals(tipoDetalle)) {
+		if (TipoDetalle.ARTICULO.equals(tipoDetalle)) {
 			DetallePaqueteArticulo articuloEnPaquete = this.detallePaqueteArticuloService.quitarDelPaquete(idDetallePaquete);
 			return articuloEnPaquete.getPaquete();
 		}
@@ -190,7 +190,6 @@ public class DetalleEnPaqueteBussinesImpl implements DetallePaqueteBussines {
 		
 		articulo.setCantidad((int)detallePaqueteArticulo.getCantidad());
 		articulo.setCategoria(detallePaqueteArticulo.getArticulo().getCategoria().getNombreCategoria());
-		articulo.setCodigo(detallePaqueteArticulo.getArticulo().getCodigoArticulo());
 		
 		articulo.setCodigoPaquete(detallePaqueteArticulo.getPaquete().getCodigoPaquete());
 		
@@ -202,7 +201,7 @@ public class DetalleEnPaqueteBussinesImpl implements DetallePaqueteBussines {
 		
 		articulo.setNombreDetalle(detallePaqueteArticulo.getArticulo().getNombreArticulo());
 		articulo.setTipo(detallePaqueteArticulo.getArticulo().getTipoArticulo().getNombreTipo());
-		articulo.setTipoDetalle(TipoDetalle.Articulo);
+		articulo.setTipoDetalle(TipoDetalle.ARTICULO);
 		articulo.setUnidadMedida(detallePaqueteArticulo.getArticulo().getUnidadMedida());
 		
 		return articulo;
@@ -226,7 +225,7 @@ public class DetalleEnPaqueteBussinesImpl implements DetallePaqueteBussines {
 		
 		servicio.setNombreDetalle(detallePaqueteServicio.getServicio().getNombreServicio());
 		servicio.setTipo(detallePaqueteServicio.getServicio().getTipoServicio().getDescripcion());
-		servicio.setTipoDetalle(TipoDetalle.Servicio);
+		servicio.setTipoDetalle(TipoDetalle.SERVICIO);
 		
 		return servicio;
 	}

@@ -44,7 +44,7 @@ public class ArticuloDirector {
 	/**
 	 * 
 	 */
-	private ArticuloDirector(CategoriaService categoriaService, ColorService colorService, TipoArticuloService tipoArticuloService) {
+	protected ArticuloDirector(CategoriaService categoriaService, ColorService colorService, TipoArticuloService tipoArticuloService) {
 		/* Constructor principal */
 		this.categoriaService = categoriaService;
 		this.colorService = colorService;
@@ -99,5 +99,6 @@ public class ArticuloDirector {
 	public Articulo obtenerArticulo() {
 		return builder.get();
 	}
+
 
 }

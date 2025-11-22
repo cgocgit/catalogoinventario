@@ -25,9 +25,9 @@ public class ServicioServiceImpl implements ServicioService {
 	
 	private static final Logger log = LoggerFactory.getLogger(ServicioServiceImpl.class);
 
-	private final ServicioRepository servicioRepository;
+	private static final String ARTICULONOENCONTRADO = "El articulo no se ha encontrado.";
 	
-	private final String ARTICULONOENCONTRADO = "El articulo no se ha encontrado."; 
+	private final ServicioRepository servicioRepository;
 
 	/**
 	 * 
@@ -38,7 +38,7 @@ public class ServicioServiceImpl implements ServicioService {
 
 	@Override
 	public Collection<Servicio> obtenerServicios() {
-		return servicioRepository.findByActivoTrue(); //.findAll();
+		return servicioRepository.findByActivoTrue();
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class ServicioServiceImpl implements ServicioService {
 	public Servicio registrarServicio(Servicio articulo) {
 		articulo.setActivo(true);
 		articulo.setIdServicio(null);
-		log.info(articulo.toString());
+		log.info("Registrar articulo: {}", articulo);
 		servicioRepository.save(articulo);
 		return articulo;
 	}

@@ -12,7 +12,7 @@ package mx.com.mesaregia.catalogoinventario.domain;
  * @version 1.0.0
  */
 public enum NivelControl {
-	Bajo("Bajo"), Medio("Medio"), Alto("Alto");
+	BAJO("Bajo"), MEDIO("Medio"), ALTO("Alto");
 
 	private String descipcion;
 

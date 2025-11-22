@@ -2,7 +2,6 @@ package mx.com.mesaregia.catalogoinventario.api;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -38,7 +37,8 @@ import mx.com.mesaregia.catalogoinventario.dto.ServicioDTO;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 /**
- *
+ * Controllador para servicios en el catalogo.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *
@@ -92,8 +92,8 @@ public class ServicioController extends CommonsController {
 			)
 	public EntityModel<Servicio> one(@Min(value = 1, message = "El identificador no debe ser menor a 1.") @PathVariable Integer id) {
 		try {
-			Servicio servicio = servicioService.obtenerServicio(id); // servicioRepository.findById(id).get();
-			return assambler.toModel(servicio); //EntityModel.of(servicio);
+			Servicio servicio = servicioService.obtenerServicio(id);
+			return assambler.toModel(servicio);
 		} catch (NotFoundException e) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
 		}
@@ -125,7 +125,7 @@ public class ServicioController extends CommonsController {
 			)
 	public CollectionModel<EntityModel<Servicio>> getServicios() {
 		List<EntityModel<Servicio>> servicios = servicioService.obtenerServicios() //servicioRepository.findAll()
-				.stream().map(assambler::toModel).collect(Collectors.toList());
+				.stream().map(assambler::toModel).toList();
 		return CollectionModel.of(servicios,
 				linkTo(methodOn(ServicioController.class).getServicios()).withSelfRel(),
 				getLinkPut()

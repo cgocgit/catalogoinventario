@@ -4,10 +4,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
@@ -38,7 +35,8 @@ import mx.com.mesaregia.catalogoinventario.domain.Paquete;
 import mx.com.mesaregia.catalogoinventario.dto.PaqueteDTO;
 
 /**
- *
+ * Controllador para Paquetes en el catalogo.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *
@@ -53,18 +51,17 @@ public class PaqueteController extends CommonsController {
 	private final PaqueteBuilder paqueteBuilder;
 	private final PaqueteDirector paqueteDirector;
 	
-	@Autowired
-	@Qualifier("paqueteControllerAssembler")
 	private AbstractReflectionHateoas<Paquete> assambler;
 
 	/**
 	 * 
 	 */
 	public PaqueteController(PaqueteService paqueteService, PaqueteBuilder paqueteBuilder,
-			PaqueteDirector paqueteDirector) {
+			PaqueteDirector paqueteDirector, AbstractReflectionHateoas<Paquete> assambler) {
 		this.paqueteService = paqueteService;
 		this.paqueteBuilder = paqueteBuilder;
 		this.paqueteDirector = paqueteDirector;
+		this.assambler = assambler;
 	}
 
 	@GetMapping("/{id}")
@@ -90,7 +87,7 @@ public class PaqueteController extends CommonsController {
 	public CollectionModel<EntityModel<Paquete>> getPaquetes() {
 
 		List<EntityModel<Paquete>> paquetes = paqueteService.obtenerPaquetes().stream()
-				.map(paquete -> assambler.toModel(paquete, CRUDMethod.GET)).collect(Collectors.toList());
+				.map(paquete -> assambler.toModel(paquete, CRUDMethod.GET)).toList();
 		return CollectionModel.of(paquetes);
 	}
 

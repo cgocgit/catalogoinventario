@@ -12,7 +12,7 @@ package mx.com.mesaregia.catalogoinventario.domain;
  * @version 1.0.0
  */
 public enum TipoMovimiento {
-	Entrada("Entrada"), Salida("Salida"), Ajuste("Ajuste"), Compra("Compra"), Devolucion("Devolución");
+	ENTRADA("Entrada"), SALIDA("Salida"), AJUSTE("Ajuste"), COMPRA("Compra"), DEVOLUCION("Devolución");
 
 	private String descripcion;
 

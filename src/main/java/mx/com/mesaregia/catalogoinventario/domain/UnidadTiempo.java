@@ -12,7 +12,7 @@ package mx.com.mesaregia.catalogoinventario.domain;
  * @version 1.0.0
  */
 public enum UnidadTiempo {
-	Dia("Dia completo"), Evento("Parcialmente");
+	DIA("Dia completo"), EVENTO("Parcialmente");
 
 	private String descripcion;
 

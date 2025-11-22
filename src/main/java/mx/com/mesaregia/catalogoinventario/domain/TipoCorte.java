@@ -9,7 +9,7 @@ package mx.com.mesaregia.catalogoinventario.domain;
  * @version 1.0.0
  */
 public enum TipoCorte {
-	General("General"), Parcial("Parcial"), PorProducto("Por Producto");
+	GENERAL("General"), PARCIAL("Parcial"), PORPRODUCTO("Por Producto");
 
 	private String descripcion;
 

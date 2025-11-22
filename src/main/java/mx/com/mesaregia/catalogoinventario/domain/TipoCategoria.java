@@ -12,7 +12,7 @@ package mx.com.mesaregia.catalogoinventario.domain;
  * @version 1.0.0
  */
 public enum TipoCategoria {
-	Producto ("Producto"), Servicio("Servicio");
+	PRODUCTO("Producto"), SERVICIO("Servicio");
 	
 	private String descripcion;
 

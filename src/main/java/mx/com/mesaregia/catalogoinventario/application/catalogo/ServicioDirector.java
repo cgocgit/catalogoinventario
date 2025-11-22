@@ -41,8 +41,7 @@ public class ServicioDirector {
 	/**
 	 * 
 	 */
-	private ServicioDirector(CategoriaService categoriaService, ColorService colorService,
-			TipoArticuloService tipoArticuloService) {
+	protected ServicioDirector(CategoriaService categoriaService) {
 		/* Constructor principal */
 		this.categoriaService = categoriaService;
 	}

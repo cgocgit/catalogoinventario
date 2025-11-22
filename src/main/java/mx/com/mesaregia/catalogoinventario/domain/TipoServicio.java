@@ -13,7 +13,7 @@ package mx.com.mesaregia.catalogoinventario.domain;
  */
 public enum TipoServicio {
 
-	Banquete("Banquete"), Decoracion("Decoración"), Flete("Flete"), Meseros("Meseros"), Otro("Otro");
+	BANQUETE("Banquete"), DECORACION("Decoración"), FLETE("Flete"), MESEROS("Meseros"), OTRO("Otro");
 
 	private String descripcion;
 

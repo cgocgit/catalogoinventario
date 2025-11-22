@@ -7,7 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -29,8 +29,8 @@ public class MovimientoInventario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idMovimiento;
-	@OneToOne
-	@JoinColumn(name = "idInventario", referencedColumnName = "idInventario")
+	@ManyToOne
+	@JoinColumn(name = "idInventario", insertable = true, updatable = true)
     private Inventario idInventario;
     private TipoMovimiento tipoMovimiento;
     private Long cantidad;

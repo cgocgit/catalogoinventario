@@ -12,7 +12,7 @@ import mx.com.mesaregia.catalogoinventario.domain.Paquete;
 import mx.com.mesaregia.catalogoinventario.dto.PaqueteDTO;
 
 /**
- *
+ * Hypermedia as the Engine of Application State for Controller Paquete.
  * @author Carlos Gilberto Olvera Casanova
  * 
  *
@@ -20,6 +20,19 @@ import mx.com.mesaregia.catalogoinventario.dto.PaqueteDTO;
  */
 @Component("paqueteControllerAssembler")
 public class PaqueteModelAssambler extends AbstractReflectionHateoas<Paquete> {
+
+	/**
+	 * 
+	 */
+	private static final String BAJARPAQUETE = "bajarPaquete";
+	/**
+	 * 
+	 */
+	private static final String ACTUALIZARPAQUETE = "actualizarPaquete";
+	/**
+	 * 
+	 */
+	private static final String REGISTRARPAQUETE = "registrarPaquete";
 
 	/**
 	 * @param controller
@@ -37,13 +50,13 @@ public class PaqueteModelAssambler extends AbstractReflectionHateoas<Paquete> {
 	public Affordance getAffordance(Paquete modelo, CRUDMethod operacion) {
 		switch (operacion) {
 		case GET:
-			getAffordance("one", modelo.getIdPaquete().intValue());
+			return getAffordance("one", modelo.getIdPaquete());
 		case POST:
-			getAffordance("registrarPaquete", new PaqueteDTO());
+			return getAffordance(REGISTRARPAQUETE, new PaqueteDTO());
 		case PUT:
-			return getAffordance("actualizarPaquete", modelo.getIdPaquete().intValue(), new PaqueteDTO());
+			return getAffordance(ACTUALIZARPAQUETE, modelo.getIdPaquete(), new PaqueteDTO());
 		case DELETE:
-			return getAffordance("bajarPaquete", modelo.getIdPaquete().intValue());
+			return getAffordance(BAJARPAQUETE, modelo.getIdPaquete());
 		default:
 			break;
 		}
@@ -52,13 +65,11 @@ public class PaqueteModelAssambler extends AbstractReflectionHateoas<Paquete> {
 
 	@Override
 	protected EntityModel<Paquete> setHateoasPatch(Paquete modelo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected EntityModel<Paquete> setHateoasDelete(Paquete modelo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -85,7 +96,7 @@ public class PaqueteModelAssambler extends AbstractReflectionHateoas<Paquete> {
 	@Override
 	protected EntityModel<Paquete> setHateoasPost(Paquete modelo) {
 		try {
-			Link link = linkRegistrar(modelo)
+			Link link = linkRegistrar()
 			.andAffordance(getAffordance(modelo, CRUDMethod.GET))
 			.andAffordance(getAffordance(modelo, CRUDMethod.PUT))
 			.andAffordance(getAffordance(modelo, CRUDMethod.DELETE));
@@ -131,7 +142,7 @@ public class PaqueteModelAssambler extends AbstractReflectionHateoas<Paquete> {
 	 */
 	private Link linkEliminar(Paquete modelo)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return linkToMetodo("bajarPaquete", "bajarPaquete", false, modelo.getIdPaquete().intValue());
+		return linkToMetodo(BAJARPAQUETE, BAJARPAQUETE, false, modelo.getIdPaquete());
 	}
 
 	/**
@@ -143,15 +154,15 @@ public class PaqueteModelAssambler extends AbstractReflectionHateoas<Paquete> {
 	 */
 	private Link linkActualizar(Paquete modelo)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return linkToMetodo("actualizarPaquete", "actualizarPaquete", false, modelo.getIdPaquete().intValue(), new PaqueteDTO());
+		return linkToMetodo(ACTUALIZARPAQUETE, ACTUALIZARPAQUETE, false, modelo.getIdPaquete(), new PaqueteDTO());
 	}
 
 	/**
 	 * @param modelo
 	 * @return
 	 */
-	private Link linkRegistrar(Paquete modelo) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return linkToMetodo("registrarPaquete", "registrarPaquete", false, new PaqueteDTO());
+	private Link linkRegistrar() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+		return linkToMetodo(REGISTRARPAQUETE, REGISTRARPAQUETE, false, new PaqueteDTO());
 	}
 	
 	/**
@@ -163,7 +174,7 @@ public class PaqueteModelAssambler extends AbstractReflectionHateoas<Paquete> {
 	 */
 	private Link linkOne(Paquete modelo)
 			throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-		return linkToMetodo("one", "obtener", false, modelo.getIdPaquete().intValue());
+		return linkToMetodo("one", "obtener", false, modelo.getIdPaquete());
 	}
 
 }
