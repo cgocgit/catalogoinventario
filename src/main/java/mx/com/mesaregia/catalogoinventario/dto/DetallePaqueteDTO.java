@@ -5,7 +5,8 @@ import jakarta.validation.constraints.Min;
 import lombok.Data;
 
 /**
- *
+ * Transferencia de datos a la entidad DetallePaquete (Articulos, Servicios)
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

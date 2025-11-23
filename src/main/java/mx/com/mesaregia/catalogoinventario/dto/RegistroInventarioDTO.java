@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- *
+ * Transferencia de datos a la entidad Inventario.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

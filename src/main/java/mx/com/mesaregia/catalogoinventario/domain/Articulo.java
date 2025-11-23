@@ -48,7 +48,12 @@ public class Articulo {
 	private boolean activo;
 	private Date fechaRegistro;
 	private String usuarioRegistro;
-
+	
+    private String medidas;
+    private String material;
+    private String capacidad;
+    private String detalles;
+    
 	public Articulo() {
 		/* Main constructor */
 	}
@@ -69,4 +74,24 @@ public class Articulo {
 		this.usuarioRegistro = usuarioRegistro;
 	}
 
+	public Articulo(Long idArticulo, String nombreArticulo, String descripcionArticulo, TipoArticulo tipoArticulo,
+			Categoria categoria, Color color, String unidadMedida, boolean activo, Date fechaRegistro,
+			String usuarioRegistro, String medidas, String material, String capacidad, String detalles) {
+
+		this.idArticulo = idArticulo;
+		this.nombreArticulo = nombreArticulo;
+		this.descripcionArticulo = descripcionArticulo;
+		this.tipoArticulo = tipoArticulo;
+		this.categoria = categoria;
+		this.color = color;
+		this.unidadMedida = unidadMedida;
+		this.activo = activo;
+		this.fechaRegistro = fechaRegistro;
+		this.usuarioRegistro = usuarioRegistro;
+
+		this.medidas = medidas;
+		this.material = material;
+		this.capacidad = capacidad;
+		this.detalles = detalles;
+	}
 }

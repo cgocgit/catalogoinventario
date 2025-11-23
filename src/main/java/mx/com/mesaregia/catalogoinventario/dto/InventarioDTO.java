@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 import lombok.Data;
 
 /**
- *
+ * Transferencia de datos entre entidad Inventario.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

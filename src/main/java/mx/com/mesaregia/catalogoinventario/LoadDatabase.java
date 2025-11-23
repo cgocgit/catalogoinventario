@@ -49,19 +49,35 @@ public class LoadDatabase {
 	/**
 	 * 
 	 */
+	private static final String MEDIDAPIEZA = "pieza";
+	/**
+	 * 
+	 */
+	private static final String USERSYSTEM = "system";
+	/**
+	 * 
+	 */
+	private static final String ARTICULO = "Articulo: {}";
+	/**
+	 * 
+	 */
+	private static final String SERVICIO2 = "Servicio: {}";
+	/**
+	 * 
+	 */
+	private static final String DETALLE_SERVICIO_EN_PAQUETE = "Detalle servicio en paquete: {}";
+	/**
+	 * 
+	 */
+	private static final String DETALLE_ARTICULO_EN_PAQUETE = "Detalle articulo en paquete: {}";
+	/**
+	 * 
+	 */
 	private static final String PRELOADING = "Preloading: {}";
 	/**
 	 * 
 	 */
-	private static final String COLOR = "Color: {}";
-	/**
-	 * 
-	 */
 	private static final String CATEGORIA = "Categoria: {}";
-	/**
-	 * 
-	 */
-	private static final String TIPO_ARTICULO = "TipoArticulo: {}";
 	
 	private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
 
@@ -78,23 +94,141 @@ public class LoadDatabase {
 			log.info("");
 			log.info("################   initDataBaseArticulo #########################################################################################");
 			log.info("");
-		
-			Color blanco = new Color(1, "Blanco", "#ffffff", "Blanco");
+			
+			Color blanco = new Color(1, "Blanco", "#FFFFFF", "Color blanco aplicado a las Mesas Avant Garden");
+
+			Color beige = new Color(2, "Beige claro", "#F5F5DC", "Color beige claro utilizado en la Silla Lifetime");
+
+			Color aceroInoxidable = new Color(3, "Acero inoxidable", "#C0C0C0",
+					"Tono gris metálico característico del acero inoxidable");
+			
+			Color colorSinDefinir = new Color(0, "Sin color", "#FFFFFF", "Color no especificado");
+	
 			log.info(PRELOADING, colorRepository.saveAndFlush(blanco));
-			TipoArticulo tipoArticulo = new TipoArticulo(1, "Silla", "Describe Silla", NivelControl.ALTO);
-			log.info(PRELOADING, tipoArticuloRepository.saveAndFlush(tipoArticulo));
-			Categoria categoria = new Categoria(1, "Silla", "Describe categoria", TipoCategoria.PRODUCTO);
-			log.info(PRELOADING, categoriaRepository.saveAndFlush(categoria));
+			log.info(PRELOADING, colorRepository.saveAndFlush(beige));
+			log.info(PRELOADING, colorRepository.saveAndFlush(aceroInoxidable));
+			log.info(PRELOADING, colorRepository.saveAndFlush(colorSinDefinir));
+			
 
-			log.info(TIPO_ARTICULO, tipoArticulo);
-			log.info(CATEGORIA, categoria);
-			log.info(COLOR, blanco);
+			Categoria categoriaProducto = new Categoria(1, "Productos Generales", "Artículos en renta",
+					TipoCategoria.PRODUCTO);
+			
+			Categoria categoriaSilla = new Categoria(1, "Silla",
+					"Categoría para artículos de tipo silla utilizados en eventos.", TipoCategoria.PRODUCTO);
 
+			// Categoría para Mesas
+			Categoria categoriaMesa = new Categoria(2, "Mesa",
+					"Categoría para mesas plegables, ya sean redondas o rectangulares.", TipoCategoria.PRODUCTO);
+
+			// Categoría para Climatización
+			Categoria categoriaClimatizacion = new Categoria(3, "Climatización",
+					"Artículos destinados a controlar la temperatura en eventos, como calentadores.",
+					TipoCategoria.PRODUCTO);
+			
+			// Categoría para servicios
+			Categoria categoriaServicio = new Categoria(2, "Servicios Generales", "Servicios adicionales para eventos",
+					TipoCategoria.SERVICIO);
+
+			
+			log.info(PRELOADING, categoriaRepository.saveAndFlush(categoriaSilla));
+			log.info(PRELOADING, categoriaRepository.saveAndFlush(categoriaMesa));
+			log.info(PRELOADING, categoriaRepository.saveAndFlush(categoriaClimatizacion));
+			log.info(PRELOADING, categoriaRepository.saveAndFlush(categoriaProducto));
+			log.info(PRELOADING, categoriaRepository.saveAndFlush(categoriaServicio));
+
+			TipoArticulo tipoArticuloMobiliario = new TipoArticulo(1, "Mobiliario",
+					"Artículos de mobiliario como sillas, mesas y elementos físicos utilizados en eventos.",
+					NivelControl.MEDIO // o el nivel que corresponda según tu catálogo
+			);
+			
+			TipoArticulo tipoArticuloEquipo = new TipoArticulo(2, "Equipo", "Artículos clasificados como equipo funcional para operación o apoyo del evento.",
+					NivelControl.BAJO // o el nivel adecuado
+			);
+			
+			TipoArticulo tipoRopaMesa = new TipoArticulo(10, "Ropa de Mesa", "Artículos textiles para mesa",
+					NivelControl.BAJO);
+			TipoArticulo tipoLoza = new TipoArticulo(11, "Loza", "Artículos de loza para servicio de comida",
+					NivelControl.MEDIO);
+			TipoArticulo tipoCristaleria = new TipoArticulo(12, "Cristalería", "Artículos de vidrio para servicio",
+					NivelControl.MEDIO);
+			
+			log.info(PRELOADING, tipoArticuloRepository.saveAndFlush(tipoArticuloMobiliario));
+			log.info(PRELOADING, tipoArticuloRepository.saveAndFlush(tipoArticuloEquipo));
+			log.info(PRELOADING, tipoArticuloRepository.saveAndFlush(tipoRopaMesa));
+			log.info(PRELOADING, tipoArticuloRepository.saveAndFlush(tipoLoza));
+			log.info(PRELOADING, tipoArticuloRepository.saveAndFlush(tipoCristaleria));
+			
 			Date fechaRegistro = new Date();
-			Articulo articulo = new Articulo(null, "Articulo", "Describe Articulo", tipoArticulo, categoria, blanco,
-					"cantidad", true, fechaRegistro, "Desarrollador");
-			log.info("Articulo: {}", articulo);
-			log.info(PRELOADING, articuloRepository.saveAndFlush(articulo));
+			
+			Articulo sillaLifetime = new Articulo(null, "Silla Lifetime",
+					"Silla plegable, liviana y resistente. Ideales y muy cómodas para eventos familiares, asados, cumpleaños, reuniones de amigos, etc.",
+					tipoArticuloMobiliario, // Reemplazar con tu instancia real
+					categoriaSilla, // Reemplazar
+					blanco, // Reemplazar (Beige)
+					MEDIDAPIEZA, true, fechaRegistro, USERSYSTEM, "0.57 m × 0.49 m × 0.83 m", "Plástico con estructura metálica",
+					null, null);
+
+			Articulo sillaAvantGarden = new Articulo(null, "Silla AvantGarden",
+					"Sillas plegables, livianas y se adaptan para cualquier tipo de eventos, bodas, bautizos, cumpleaños, comidas empresariales, etc.",
+					tipoArticuloMobiliario, categoriaSilla, beige, // Blanco
+					MEDIDAPIEZA, true, fechaRegistro, USERSYSTEM, "0.76 m × 0.39 m", "Resina de alta resistencia", null, null);
+
+			Articulo mesaRedonda = new Articulo(null, "Mesa Redonda",
+					"Mesa plegable redonda con excelente resistencia, adecuada para cualquier tipo de eventos, cumpleaños, bodas, reuniones empresariales, etc.",
+					tipoArticuloMobiliario, categoriaMesa, blanco, // Blanco
+					MEDIDAPIEZA, true, fechaRegistro, USERSYSTEM, "Diámetro 1.8 m", "Fibra de vidrio con estructura metálica", null,
+					null);
+
+			Articulo mesaRectangular = new Articulo(null, "Mesa Rectangular Plegable",
+					"Mesa plegable rectangular con capacidad para 10 personas, ideal para todo tipo de eventos: cumpleaños, eventos empresariales, bodas, reuniones familiares, asados, etc.",
+					tipoArticuloMobiliario, categoriaMesa, blanco, // Blanco
+					MEDIDAPIEZA, true, fechaRegistro, USERSYSTEM, "2.4 m × 0.75 m", "Fibra con estructura metálica", "10 personas",
+					null);
+
+			
+			Articulo calentadorExterior = new Articulo(null, "Calentador de Exteriores",
+					"Calentador de exterior, brinda un ambiente cálido durante los meses más fríos. Funciona con gas propano. Cubre un área de 20 m2.",
+					tipoArticuloEquipo, categoriaClimatizacion, aceroInoxidable, // Acero inoxidable
+					MEDIDAPIEZA, true, fechaRegistro, USERSYSTEM, null, "Acero con acabado acero inoxidable", "20 m2", null);
+			
+			Articulo mantel = new Articulo(null, "Mantelería", "Mantelería estándar para eventos", tipoRopaMesa,
+					categoriaProducto, colorSinDefinir, "Pieza", true, fechaRegistro, USERSYSTEM, "Varía según mesa", "Tela / Textil",
+					null, "Incluye mantel para mesa rectangular o redonda");
+
+			// 2. Loza
+			Articulo loza = new Articulo(null, "Loza Completa", "Juego completo de loza para servicio", tipoLoza,
+					categoriaProducto, colorSinDefinir, "Juego", true, fechaRegistro, USERSYSTEM, "Para 10 personas",
+					"Cerámica / Porcelana", null, "Incluye platos y cubiertos según requerimiento");
+
+			// 3. Cristalería
+			Articulo cristaleria = new Articulo(null, "Cristalería", "Cristalería estándar para eventos", tipoCristaleria,
+					categoriaProducto, colorSinDefinir, "Juego", true, fechaRegistro, USERSYSTEM, "Para 10 personas",
+					"Vidrio templado", null, "Incluye vasos y copas según necesidad");
+			
+			log.info(ARTICULO, sillaLifetime);
+			log.info(PRELOADING, articuloRepository.saveAndFlush(sillaLifetime));
+			
+			log.info(ARTICULO, sillaAvantGarden);
+			log.info(PRELOADING, articuloRepository.saveAndFlush(sillaAvantGarden));
+			
+			log.info(ARTICULO, mesaRedonda);
+			log.info(PRELOADING, articuloRepository.saveAndFlush(mesaRedonda));
+			
+			log.info(ARTICULO, mesaRectangular);
+			log.info(PRELOADING, articuloRepository.saveAndFlush(mesaRectangular));
+			
+			log.info(ARTICULO, calentadorExterior);
+			log.info(PRELOADING, articuloRepository.saveAndFlush(calentadorExterior));
+			
+			log.info(ARTICULO, mantel);
+			log.info(PRELOADING, articuloRepository.saveAndFlush(mantel));
+			
+			log.info(ARTICULO, loza);
+			log.info(PRELOADING, articuloRepository.saveAndFlush(loza));
+			
+			log.info(ARTICULO, cristaleria);
+			log.info(PRELOADING, articuloRepository.saveAndFlush(cristaleria));
+			
 			
 			log.info("");
 			log.info("################   initDataBaseArticulo #########################################################################################");
@@ -102,13 +236,31 @@ public class LoadDatabase {
 			log.info("");
 			log.info("################   initDataBaseServicio #########################################################################################");
 			log.info("");
+			// ====== SERVICIO: Flete ======
+			Servicio servicioFlete = new Servicio(null, // idServicio (autogenerado)
+					"S-FLETE-001", // codigoServicio
+					"Servicio de Flete", // nombreServicio
+					"Servicio de transporte y entrega del mobiliario al evento.", TipoServicio.FLETE, // Tipo de servicio
+					null, // costo (se calcula)
+					true, // activo
+					300.00, // tarifaBase estimada
+					categoriaServicio, // categoría
+					fechaRegistro, // fechaRegistro
+					USERSYSTEM, // creadoPor
+					null, // fechaModificacion
+					null // modificadoPor
+			);
 			
+			log.info(SERVICIO2, servicioFlete);
+			log.info(PRELOADING, servicioRepository.saveAndFlush(servicioFlete));
+
+
 			Categoria categoria2 = new Categoria(2, "Servicios de buffet", "Describe categoria", TipoCategoria.SERVICIO);
 			log.info(PRELOADING, categoriaRepository.saveAndFlush(categoria2));
 			log.info(CATEGORIA, categoria2);
 			Servicio servicio = new Servicio(null, "SrvBuffet", "Catering", "Desayuno intercontinental",
 					TipoServicio.BANQUETE, 5678.90, true, 5555d, categoria2, new Date(), "Por miguelito", null, null);
-			log.info("Servicio: {}", servicio);
+			log.info(SERVICIO2, servicio);
 			log.info(PRELOADING, servicioRepository.saveAndFlush(servicio));
 
 			log.info("");
@@ -118,20 +270,90 @@ public class LoadDatabase {
 			log.info("");
 			log.info("################   initDataBasePaquete  #########################################################################################");
 			log.info("");
-			Articulo articuloP = articuloRepository.findById(1).orElse(null);
-			Servicio servicioP = servicioRepository.findById(1).orElse(null);
 
-			Paquete paquete = new Paquete(null, "Paquete uno", "Una mesa 10 Sillas", 700d, true, "paqUno", new Date(),
-					"ADMNISTRADOR");
-			log.info("Servicio: {}", paquete);
-			log.info(PRELOADING, paqueteRepository.saveAndFlush(paquete));
+			// ===== Datos generales =====
+			boolean activo = true;
+
+			// ===== Paquete 1 =====
+			Paquete paquete1 = new Paquete(null, "Paquete 1",
+					"Incluye sillas Avant Garden, mesa redonda o rectangular y mantelería.", 425.00, activo, "PQT-001",
+					fechaRegistro, USERSYSTEM);
+
+			// ===== Paquete 2 =====
+			Paquete paquete2 = new Paquete(null, "Paquete 2", "Incluye 1 mantel, 10 sillas Lifetime y 1 mesa.", 380.00,
+					activo, "PQT-002", fechaRegistro, USERSYSTEM);
+
+			// ===== Paquete 3 =====
+			Paquete paquete3 = new Paquete(null, "Paquete 3",
+					"Mobiliario y loza para 10 personas: incluye sillas Avant Garden, mesa, mantelería, loza completa y cristalería.",
+					1080.00, activo, "PQT-003", fechaRegistro, USERSYSTEM);
+
+			log.info(SERVICIO2, paquete1);
+			log.info(PRELOADING, paqueteRepository.saveAndFlush(paquete1));
 			
-			DetallePaqueteArticulo detallePaqueteArticulo = new DetallePaqueteArticulo(null, paquete, articuloP, 10l, 30d);
-			log.info("Detalle articulo en paquete: {}", detallePaqueteArticulo);
+			log.info(SERVICIO2, paquete2);
+			log.info(PRELOADING, paqueteRepository.saveAndFlush(paquete2));
+			
+			log.info(SERVICIO2, paquete3);
+			log.info(PRELOADING, paqueteRepository.saveAndFlush(paquete3));
+			
+			DetallePaqueteArticulo detallePaqueteArticulo = new DetallePaqueteArticulo(null, paquete1, sillaAvantGarden, 10, 1d);
+			log.info(DETALLE_ARTICULO_EN_PAQUETE, detallePaqueteArticulo);
 			log.info(PRELOADING, detallePaqueteArticuloRepository.saveAndFlush(detallePaqueteArticulo));
 			
-			DetallePaqueteServicio detallePaqueteServicio = new DetallePaqueteServicio(null, paquete, servicioP, 1, 3560d);
-			log.info("Detalle servicio en paquete: {}", detallePaqueteServicio);
+			detallePaqueteArticulo = new DetallePaqueteArticulo(null, paquete1, mesaRectangular, 1, 1d);
+			log.info(DETALLE_ARTICULO_EN_PAQUETE, detallePaqueteArticulo);
+			log.info(PRELOADING, detallePaqueteArticuloRepository.saveAndFlush(detallePaqueteArticulo));
+			
+			detallePaqueteArticulo = new DetallePaqueteArticulo(null, paquete1, mantel, 1, 1d);
+			log.info(DETALLE_ARTICULO_EN_PAQUETE, detallePaqueteArticulo);
+			log.info(PRELOADING, detallePaqueteArticuloRepository.saveAndFlush(detallePaqueteArticulo));
+			
+			DetallePaqueteServicio detallePaqueteServicio = new DetallePaqueteServicio(null, paquete1, servicioFlete, 1, 1d);
+			log.info(DETALLE_SERVICIO_EN_PAQUETE, detallePaqueteServicio);
+			log.info(PRELOADING, detallePaqueteServicioRepository.saveAndFlush(detallePaqueteServicio));
+			
+			
+			//Paquete 2
+			detallePaqueteArticulo = new DetallePaqueteArticulo(null, paquete2, sillaLifetime, 10, 1d);
+			log.info(DETALLE_ARTICULO_EN_PAQUETE, detallePaqueteArticulo);
+			log.info(PRELOADING, detallePaqueteArticuloRepository.saveAndFlush(detallePaqueteArticulo));
+			
+			detallePaqueteArticulo = new DetallePaqueteArticulo(null, paquete2, mesaRectangular, 1, 1d);
+			log.info(DETALLE_ARTICULO_EN_PAQUETE, detallePaqueteArticulo);
+			log.info(PRELOADING, detallePaqueteArticuloRepository.saveAndFlush(detallePaqueteArticulo));
+			
+			detallePaqueteArticulo = new DetallePaqueteArticulo(null, paquete2, mantel, 1, 1d);
+			log.info(DETALLE_ARTICULO_EN_PAQUETE, detallePaqueteArticulo);
+			log.info(PRELOADING, detallePaqueteArticuloRepository.saveAndFlush(detallePaqueteArticulo));
+			
+			detallePaqueteServicio = new DetallePaqueteServicio(null, paquete2, servicioFlete, 1, 1d);
+			log.info(DETALLE_SERVICIO_EN_PAQUETE, detallePaqueteServicio);
+			log.info(PRELOADING, detallePaqueteServicioRepository.saveAndFlush(detallePaqueteServicio));
+
+			//Paquete 3
+			detallePaqueteArticulo = new DetallePaqueteArticulo(null, paquete3, sillaLifetime, 10, 1d);
+			log.info(DETALLE_ARTICULO_EN_PAQUETE, detallePaqueteArticulo);
+			log.info(PRELOADING, detallePaqueteArticuloRepository.saveAndFlush(detallePaqueteArticulo));
+			
+			detallePaqueteArticulo = new DetallePaqueteArticulo(null, paquete3, mesaRectangular, 1, 1d);
+			log.info(DETALLE_ARTICULO_EN_PAQUETE, detallePaqueteArticulo);
+			log.info(PRELOADING, detallePaqueteArticuloRepository.saveAndFlush(detallePaqueteArticulo));
+			
+			detallePaqueteArticulo = new DetallePaqueteArticulo(null, paquete3, mantel, 1, 1d);
+			log.info(DETALLE_ARTICULO_EN_PAQUETE, detallePaqueteArticulo);
+			log.info(PRELOADING, detallePaqueteArticuloRepository.saveAndFlush(detallePaqueteArticulo));
+			
+			detallePaqueteArticulo = new DetallePaqueteArticulo(null, paquete3, loza, 10, 1d);
+			log.info(DETALLE_ARTICULO_EN_PAQUETE, detallePaqueteArticulo);
+			log.info(PRELOADING, detallePaqueteArticuloRepository.saveAndFlush(detallePaqueteArticulo));
+			
+			detallePaqueteArticulo = new DetallePaqueteArticulo(null, paquete3, cristaleria, 10, 1d);
+			log.info(DETALLE_ARTICULO_EN_PAQUETE, detallePaqueteArticulo);
+			log.info(PRELOADING, detallePaqueteArticuloRepository.saveAndFlush(detallePaqueteArticulo));
+			
+			detallePaqueteServicio = new DetallePaqueteServicio(null, paquete3, servicioFlete, 1, 1d);
+			log.info(DETALLE_SERVICIO_EN_PAQUETE, detallePaqueteServicio);
 			log.info(PRELOADING, detallePaqueteServicioRepository.saveAndFlush(detallePaqueteServicio));
 
 			log.info("");
@@ -171,5 +393,4 @@ public class LoadDatabase {
 		
 	}
 	
-
 }

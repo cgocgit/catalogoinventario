@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import mx.com.mesaregia.catalogoinventario.domain.Inventario;
 
 /**
- *
+ * JPA for entity Inventario.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

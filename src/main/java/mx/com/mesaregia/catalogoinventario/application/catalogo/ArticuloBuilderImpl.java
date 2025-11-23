@@ -83,4 +83,24 @@ public class ArticuloBuilderImpl implements ArticuloBuilder {
 	public void setIdArticulo(Long idArticulo) {
 		articulo.setIdArticulo(idArticulo);
 	}
+
+	@Override
+	public void setMedidas(String medidas) {
+		articulo.setMedidas(medidas);
+	}
+
+	@Override
+	public void setMaterial(String material) {
+		articulo.setMaterial(material);
+	}
+
+	@Override
+	public void setCapacidad(String capacidad) {
+		articulo.setCapacidad(capacidad);
+	}
+
+	@Override
+	public void setDetalles(String detalles) {
+		articulo.setDetalles(detalles);
+	}
 }

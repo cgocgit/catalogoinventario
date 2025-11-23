@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import mx.com.mesaregia.catalogoinventario.domain.Paquete;
 
 /**
- *
+ * JPA for entity Paquete.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

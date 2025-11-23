@@ -5,7 +5,8 @@ import java.util.Collection;
 import mx.com.mesaregia.catalogoinventario.domain.Color;
 
 /**
- *
+ * Transaccional para el catalogo de colores.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

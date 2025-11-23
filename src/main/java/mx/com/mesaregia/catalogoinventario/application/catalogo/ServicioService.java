@@ -6,7 +6,8 @@ import mx.com.mesaregia.catalogoinventario.api.NotFoundException;
 import mx.com.mesaregia.catalogoinventario.domain.Servicio;
 
 /**
- *
+ * Transaccional para el manejo de Servicios.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

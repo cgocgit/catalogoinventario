@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 import lombok.Data;
 
 /**
- *
+ * Transferencia de datos entre la entidad DetallePaquete (Articulos, Servicios)
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

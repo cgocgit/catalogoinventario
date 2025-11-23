@@ -7,7 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
+ * Transferencia de datos entre entidad Paquete.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

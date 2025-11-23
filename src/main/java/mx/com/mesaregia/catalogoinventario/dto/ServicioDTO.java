@@ -8,7 +8,8 @@ import lombok.ToString;
 import mx.com.mesaregia.catalogoinventario.domain.TipoServicio;
 
 /**
- *
+ * Transferencia de datos entre entidad Servicio.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

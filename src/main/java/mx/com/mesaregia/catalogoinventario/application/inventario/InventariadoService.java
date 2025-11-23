@@ -5,7 +5,8 @@ import java.util.Collection;
 import mx.com.mesaregia.catalogoinventario.domain.Inventario;
 
 /**
- *
+ * Transaccional para el manejo de entidad Inventario.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

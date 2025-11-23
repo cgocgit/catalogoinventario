@@ -8,7 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import mx.com.mesaregia.catalogoinventario.domain.DetallePaqueteArticulo;
 
 /**
- *
+ * JPA for entity DetallePaqueteArticulo.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

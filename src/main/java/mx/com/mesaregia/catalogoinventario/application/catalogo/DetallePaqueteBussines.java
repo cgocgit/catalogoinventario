@@ -9,7 +9,8 @@ import mx.com.mesaregia.catalogoinventario.dto.DetalleEnPaqueteDTO;
 import mx.com.mesaregia.catalogoinventario.dto.TipoDetalle;
 
 /**
- *
+ * Servicio para reglas de negocio en un Paquete.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

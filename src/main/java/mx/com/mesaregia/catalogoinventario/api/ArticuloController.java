@@ -244,6 +244,10 @@ public class ArticuloController extends CommonsController {
 		articuloDirector.setNombreArticulo(articuloDTO.getNombreArticulo());
 		articuloDirector.setUnidadMedida(articuloDTO.getUnidadMedida());
 		articuloDirector.setUsuarioRegistra(articuloDTO.getUsuarioRegistra());
+		articuloDirector.setMaterial(articuloDTO.getMaterial());
+		articuloDirector.setCapacidad(articuloDTO.getCapacidad());
+		articuloDirector.setMedidas(articuloDTO.getMedidas());
+		articuloDirector.setDetalles(articuloDTO.getDetalles());
 		articuloDirector.construirArticulo();
 	}
 

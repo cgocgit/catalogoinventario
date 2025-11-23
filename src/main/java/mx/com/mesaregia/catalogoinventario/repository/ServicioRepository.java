@@ -8,7 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import mx.com.mesaregia.catalogoinventario.domain.Servicio;
 
 /**
- *
+ * JPA for entity Servicio.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

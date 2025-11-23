@@ -5,7 +5,8 @@ import java.util.Collection;
 import mx.com.mesaregia.catalogoinventario.domain.TipoArticulo;
 
 /**
- *
+ * Transaccional para el manejo del <a href="mx.com.mesaregia.catalogoinventario.application.catalogo.TipoArticulo">TipoArticulo</a>.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

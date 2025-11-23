@@ -6,7 +6,8 @@ import mx.com.mesaregia.catalogoinventario.api.NotFoundException;
 import mx.com.mesaregia.catalogoinventario.domain.Articulo;
 
 /**
- *
+ * Transaccional para Articulos en el catalogo.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

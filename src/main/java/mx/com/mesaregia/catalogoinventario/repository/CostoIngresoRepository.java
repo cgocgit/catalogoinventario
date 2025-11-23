@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import mx.com.mesaregia.catalogoinventario.domain.CostoIngresos;
 
 /**
- * CRUD para CostoIngreso
+ * JPA for entity CostoIngreso.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

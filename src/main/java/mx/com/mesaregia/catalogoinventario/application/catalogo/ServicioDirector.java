@@ -63,7 +63,7 @@ public class ServicioDirector {
 	}
 
 	/**
-	 * @param idCategoria2
+	 * @param idCategoria
 	 * @return
 	 */
 	private Categoria obtenerCategoria(int idCategoria) {

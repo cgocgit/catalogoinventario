@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import mx.com.mesaregia.catalogoinventario.domain.ExistenciaArticulo;
 
 /**
- *
+ * JPA for entity ExistenciaArticulo.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

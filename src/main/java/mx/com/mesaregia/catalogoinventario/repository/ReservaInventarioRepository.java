@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import mx.com.mesaregia.catalogoinventario.domain.ReservaInventario;
 
 /**
- *
+ * JPA for entity ReservaInventario.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

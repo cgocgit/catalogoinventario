@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import mx.com.mesaregia.catalogoinventario.domain.EventOutbox;
 
 /**
- *
+ * JPA for entity EventoutBox.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

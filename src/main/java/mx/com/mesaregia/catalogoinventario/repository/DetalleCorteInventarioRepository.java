@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import mx.com.mesaregia.catalogoinventario.domain.DetalleCorteInventario;
 
 /**
- * CRUD para DetallaCorteInventario
+ * JPA for entity DetalleCorteInventario.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import mx.com.mesaregia.catalogoinventario.domain.MovimientoInventario;
 
 /**
- *
+ * JPA for entity MovimientoInventario.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

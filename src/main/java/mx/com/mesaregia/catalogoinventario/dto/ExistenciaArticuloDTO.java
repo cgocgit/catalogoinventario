@@ -8,7 +8,8 @@ import lombok.Data;
 import mx.com.mesaregia.catalogoinventario.domain.EstadoArticulo;
 
 /**
- *
+ * Transferencia de datos a la entidad ExistenciaArticulo.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

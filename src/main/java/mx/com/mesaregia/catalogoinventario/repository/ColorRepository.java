@@ -8,7 +8,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import mx.com.mesaregia.catalogoinventario.domain.Color;
 
 /**
+ * JPA for entity Color.
+ *
+ * @author Carlos Gilberto Olvera Casanova
  * 
+ *
+ * @version 1.0.0
  */
 public interface ColorRepository extends JpaRepository<Color, Integer> {
 

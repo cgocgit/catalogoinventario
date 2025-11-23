@@ -2,6 +2,8 @@ package mx.com.mesaregia.catalogoinventario.dto;
 
 /**
  *
+ * Indicativo del tipo detalle Servicio, Articulo.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

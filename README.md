@@ -19,17 +19,23 @@ Forma parte del sistema CRM *Mesa Regia*, orientado al control de artículos, ti
 
 ---
 
+## Collecciones en Postman
+
+En el siguiente recurso encontrara una colección de peticiones con la ayuda a postman.
+
+- https://carlosg-olvera-casanova-5937589.postman.co/workspace/Carlos-Olvera's-Workspace~d0ba7dc5-bccf-4992-8db5-9fb1c682d7e4/collection/49549921-0d05dea9-7ea3-4f30-b33d-45d7efa8ba95?action=share&creator=49549921
+
 ## 🧰 Librerías y dependencias clave
 
-| Librería | Descripción | Versión |
-|-----------|--------------|----------|
-| `spring-boot-starter-web` | Controladores REST y manejo HTTP | 3.5.7 |
-| `spring-boot-starter-data-jpa` | Persistencia de datos con JPA/Hibernate | 3.5.7 |
-| `spring-boot-starter-hateoas` | Enlaces hipermedia en las respuestas REST | 3.5.7 |
-| `springdoc-openapi-starter-webmvc-ui` | Generación de documentación Swagger UI | 2.x |
-| `lombok` | Reducción de código repetitivo mediante anotaciones | Última estable |
-| `jakarta.validation` | Validaciones de entidades | Última estable |
-| `h2` | Base de datos embebida para pruebas | 2.3.232 |
+| Librería | Descripción | Versión |<br>
+|-----------|--------------|----------|<br>
+| `spring-boot-starter-web` | Controladores REST y manejo HTTP | 3.5.8 |<br>
+| `spring-boot-starter-data-jpa` | Persistencia de datos con JPA/Hibernate | 3.5.8 |<br>
+| `spring-boot-starter-hateoas` | Enlaces hipermedia en las respuestas REST | 3.5.8 |<br>
+| `springdoc-openapi-starter-webmvc-ui` | Generación de documentación Swagger UI | 2.x |<br>
+| `lombok` | Reducción de código repetitivo mediante anotaciones | Última estable |<br>
+| `jakarta.validation` | Validaciones de entidades | Última estable |<br>
+| `h2` | Base de datos embebida para pruebas | 2.3.232 |<br>
 
 ---
 

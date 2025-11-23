@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import mx.com.mesaregia.catalogoinventario.domain.StockAlmacen;
 
 /**
- *
+ * JPA for entity StockAlmacen.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

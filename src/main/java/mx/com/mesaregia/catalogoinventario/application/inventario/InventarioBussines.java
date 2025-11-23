@@ -7,7 +7,8 @@ import mx.com.mesaregia.catalogoinventario.dto.InventarioDTO;
 import mx.com.mesaregia.catalogoinventario.dto.RegistroInventarioDTO;
 
 /**
- *
+ * Serivicio para logica de negocio en inventarios.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

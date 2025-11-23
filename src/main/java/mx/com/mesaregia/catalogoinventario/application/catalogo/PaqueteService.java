@@ -6,7 +6,8 @@ import mx.com.mesaregia.catalogoinventario.api.NotFoundException;
 import mx.com.mesaregia.catalogoinventario.domain.Paquete;
 
 /**
- *
+ * Transaccional para Paquete.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

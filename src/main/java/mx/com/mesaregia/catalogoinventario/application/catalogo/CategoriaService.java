@@ -5,7 +5,8 @@ import java.util.Collection;
 import mx.com.mesaregia.catalogoinventario.domain.Categoria;
 
 /**
- *
+ * Transaccional para la categorias de un producto o servicio.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

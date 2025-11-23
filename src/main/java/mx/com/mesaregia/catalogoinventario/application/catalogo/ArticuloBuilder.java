@@ -66,4 +66,24 @@ public interface ArticuloBuilder {
 	 * @param idArticulo
 	 */
 	void setIdArticulo(Long idArticulo);
+	/**
+	 * 
+	 * @param medidas
+	 */
+    void setMedidas(String medidas);
+    /**
+     * 
+     * @param material
+     */
+    void setMaterial(String material);
+    /**
+     * 
+     * @param capacidad
+     */
+    void setCapacidad(String capacidad);
+    /**
+     * 
+     * @param detalles
+     */
+    void setDetalles(String detalles);
 }

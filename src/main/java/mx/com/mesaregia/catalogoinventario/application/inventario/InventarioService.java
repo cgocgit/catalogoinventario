@@ -9,7 +9,8 @@ import mx.com.mesaregia.catalogoinventario.domain.ExistenciaArticulo;
 import mx.com.mesaregia.catalogoinventario.domain.Inventario;
 
 /**
- *
+ * Transaccional para el manejo de inventario.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

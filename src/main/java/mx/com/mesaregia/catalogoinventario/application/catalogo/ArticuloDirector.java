@@ -40,6 +40,14 @@ public class ArticuloDirector {
 	private int idColor;
 	@Setter
 	private int idTipoArticulo;
+	@Setter
+	private String medidas;
+	@Setter
+	private String material;
+	@Setter
+    private String capacidad;
+	@Setter
+    private String detalles;
 	
 	/**
 	 * 
@@ -67,6 +75,11 @@ public class ArticuloDirector {
 		builder.setNombre(nombreArticulo);
 		builder.setUnidadMedida(unidadMedida);
 		builder.setUsuario(usuarioRegistra);
+		
+		builder.setMedidas(medidas);
+		builder.setCapacidad(capacidad);
+		builder.setMaterial(material);
+		builder.setDetalles(detalles);		
 	}
 	
 	/**

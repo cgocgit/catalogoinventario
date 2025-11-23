@@ -7,7 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
+ * Transferencia de datos para entidad Articulo.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *
@@ -33,6 +34,14 @@ public class ArticuloDTO {
 	@Min(value = 1, message = "El identificador no debe ser menor a Uno.")
 	private int idTipoArticulo;
 	
+	@NotNull(message = "Se requiere la descripción de las medidas.")
+    private String medidas;
+	@NotNull(message = "Se requiere descripción del material con el que esta elaborado.")
+    private String material;
+	@NotNull(message = "Se requiere descripción de sus capacidades.")
+    private String capacidad;
+    private String detalles;
+    
 	/**
 	 * 
 	 */
@@ -40,8 +49,16 @@ public class ArticuloDTO {
 		/* Constructor principal */
 	}
 
-	public ArticuloDTO(String nombreArticulo, String descripcionArticulo, String usuarioRegistra, String unidadMedida,
-			int idCategoria, int idColor, int idTipoArticulo) {
+	public ArticuloDTO(@NotNull(message = "Se requiere el nombre del articulo.") String nombreArticulo,
+			@NotNull(message = "Se requiere descripion del articulo.") String descripcionArticulo,
+			@NotNull(message = "Se requiere usario de quien registra.") String usuarioRegistra,
+			@NotNull(message = "Se requiere la unidad de medida.") String unidadMedida,
+			@Min(value = 1, message = "El identificador no debe ser menor a Uno.") int idCategoria,
+			@Min(value = 1, message = "El identificador no debe ser menor a Uno.") int idColor,
+			@Min(value = 1, message = "El identificador no debe ser menor a Uno.") int idTipoArticulo,
+			@NotNull(message = "Se requiere la descripción de las medidas.") String medidas,
+			@NotNull(message = "Se requiere descripción del material con el que esta elaborado.") String material,
+			@NotNull(message = "Se requiere descripción de sus capacidades.") String capacidad, String detalles) {
 		super();
 		this.nombreArticulo = nombreArticulo;
 		this.descripcionArticulo = descripcionArticulo;
@@ -50,6 +67,10 @@ public class ArticuloDTO {
 		this.idCategoria = idCategoria;
 		this.idColor = idColor;
 		this.idTipoArticulo = idTipoArticulo;
+		this.medidas = medidas;
+		this.material = material;
+		this.capacidad = capacidad;
+		this.detalles = detalles;
 	}
 	
 }

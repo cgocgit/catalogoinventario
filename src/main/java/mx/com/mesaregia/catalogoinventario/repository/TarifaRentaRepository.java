@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import mx.com.mesaregia.catalogoinventario.domain.TarifaRenta;
 
 /**
- *
+ * JPA for entity TarifaRenta.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *

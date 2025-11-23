@@ -5,7 +5,8 @@ import java.util.Collection;
 import mx.com.mesaregia.catalogoinventario.domain.ExistenciaArticulo;
 
 /**
- *
+ * Transaccional para el manejo de la entidad ExistenciaArticulo.
+ * 
  * @author Carlos Gilberto Olvera Casanova
  * 
  *
