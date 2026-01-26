@@ -41,6 +41,7 @@ public class ServicioBuilderImpl implements ServicioBuilder {
 	@Override
 	public void preparar() {
 		servicio = new Servicio();
+		servicio.setActivo(true);
 		servicio.setFechaModificacion(new Date());
 		servicio.setFechaRegistro(new Date());
 		servicio.setModificadoPor("Administrador");

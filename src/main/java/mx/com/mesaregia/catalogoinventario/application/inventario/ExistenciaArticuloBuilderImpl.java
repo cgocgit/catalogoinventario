@@ -1,5 +1,7 @@
 package mx.com.mesaregia.catalogoinventario.application.inventario;
 
+import org.springframework.stereotype.Component;
+
 import mx.com.mesaregia.catalogoinventario.domain.Almacen;
 import mx.com.mesaregia.catalogoinventario.domain.Articulo;
 import mx.com.mesaregia.catalogoinventario.domain.EstadoArticulo;
@@ -12,6 +14,7 @@ import mx.com.mesaregia.catalogoinventario.domain.ExistenciaArticulo;
  *
  * @version 1.0.0 
  */
+@Component
 public class ExistenciaArticuloBuilderImpl implements ExistenciaArticuloBuilder {
 
 	private ExistenciaArticulo bean;

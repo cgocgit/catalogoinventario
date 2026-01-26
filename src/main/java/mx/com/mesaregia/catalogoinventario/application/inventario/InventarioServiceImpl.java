@@ -33,17 +33,21 @@ public class InventarioServiceImpl extends InventarioOperativoTemplate implement
 	private final InventariadoService inventariadoService;
 	
 	private final MovimientoInventarioService movimientoInventarioService;
+	
+	private final ExistenciaArticuloBuilder builder;
 
 	/**
 	 * 
 	 */
 	public InventarioServiceImpl(ExistenciaArticuloService existenciaArticuloService, ArticuloService articuloService,
-			AlmacenService almacenService, InventariadoService inventariadoService, MovimientoInventarioService movimiInventarioService) {
+			AlmacenService almacenService, InventariadoService inventariadoService, MovimientoInventarioService movimiInventarioService,
+			ExistenciaArticuloBuilder builder) {
 		this.existenciaArticuloService = existenciaArticuloService;
 		this.articuloService = articuloService;
 		this.almacenService = almacenService;
 		this.inventariadoService = inventariadoService;
 		this.movimientoInventarioService = movimiInventarioService;
+		this.builder = builder;
 	}
 
 	@Override
@@ -70,7 +74,6 @@ public class InventarioServiceImpl extends InventarioOperativoTemplate implement
 
 	@Override
 	protected ExistenciaArticulo construirExistenciaArticulo(int idAlmacen, int idArticulo, String codigoUnidad) {
-		ExistenciaArticuloBuilder builder = new ExistenciaArticuloBuilderImpl();
 		ExistenciaArticuloDirector director = new ExistenciaArticuloDirector(builder, almacenService, articuloService);
 		director.construye(idArticulo, idAlmacen, codigoUnidad);
 		return builder.get();
